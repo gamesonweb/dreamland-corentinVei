@@ -1,0 +1,305 @@
+{
+  "world": {
+    "workingBounds": { "x": 0, "y": 0, "width": 800, "height": 600 },
+    "simulationBounds": { "x": -100, "y": -100, "width": 1000, "height": 800 },
+    "wallThickness": 60,
+    "gravity": { "x": 0, "y": -1 }
+  },
+  "objects": [
+    {
+      "id": "circle_1",
+      "type": "circle",
+      "x": 100,
+      "y": 100,
+      "radius": 25,
+      "restitution": 0.7,
+      "friction": 0.02,
+      "mass": 1,
+      "isStatic": false,
+      "color": {
+        "r": 0.9,
+        "g": 0.1,
+        "b": 0.1
+      }
+    },
+    {
+      "id": "box_1",
+      "type": "box",
+      "x": 200,
+      "y": 150,
+      "width": 50,
+      "height": 50,
+      "depth": 50,
+      "restitution": 0.5,
+      "friction": 0.1,
+      "mass": 2,
+      "isStatic": false,
+      "color": {
+        "r": 0.1,
+        "g": 0.6,
+        "b": 0.1
+      }
+    },
+    {
+      "id": "circle_2",
+      "type": "circle",
+      "x": 300,
+      "y": 80,
+      "radius": 35,
+      "restitution": 0.9,
+      "friction": 0.01,
+      "mass": 1.5,
+      "isStatic": false,
+      "color": {
+        "r": 0.1,
+        "g": 0.2,
+        "b": 0.8
+      }
+    },
+    {
+      "id": "box_2",
+      "type": "box",
+      "x": 400,
+      "y": 120,
+      "width": 60,
+      "height": 30,
+      "depth": 40,
+      "restitution": 0.4,
+      "friction": 0.15,
+      "mass": 2.5,
+      "isStatic": false,
+      "color": {
+        "r": 0.8,
+        "g": 0.7,
+        "b": 0.1
+      }
+    },
+    {
+      "id": "circle_3",
+      "type": "circle",
+      "x": 500,
+      "y": 90,
+      "radius": 20,
+      "restitution": 0.85,
+      "friction": 0.03,
+      "mass": 0.8,
+      "isStatic": false,
+      "color": {
+        "r": 0.9,
+        "g": 0.4,
+        "b": 0.7
+      }
+    },
+    {
+      "id": "box_3",
+      "type": "box",
+      "x": 600,
+      "y": 170,
+      "width": 40,
+      "height": 40,
+      "depth": 40,
+      "restitution": 0.6,
+      "friction": 0.07,
+      "mass": 1.8,
+      "isStatic": false,
+      "color": {
+        "r": 0.3,
+        "g": 0.8,
+        "b": 0.5
+      }
+    },
+    {
+      "id": "circle_4",
+      "type": "circle",
+      "x": 700,
+      "y": 110,
+      "radius": 30,
+      "restitution": 0.75,
+      "friction": 0.05,
+      "mass": 1.2,
+      "isStatic": false,
+      "color": {
+        "r": 0.6,
+        "g": 0.1,
+        "b": 0.9
+      }
+    },
+    {
+      "id": "box_4",
+      "type": "box",
+      "x": 150,
+      "y": 250,
+      "width": 45,
+      "height": 45,
+      "depth": 45,
+      "restitution": 0.55,
+      "friction": 0.08,
+      "mass": 1.9,
+      "isStatic": false,
+      "color": {
+        "r": 0.2,
+        "g": 0.4,
+        "b": 0.7
+      }
+    },
+    {
+      "id": "circle_5",
+      "type": "circle",
+      "x": 250,
+      "y": 200,
+      "radius": 28,
+      "restitution": 0.8,
+      "friction": 0.04,
+      "mass": 1.1,
+      "isStatic": false,
+      "color": {
+        "r": 0.7,
+        "g": 0.2,
+        "b": 0.3
+      }
+    },
+    {
+      "id": "box_5",
+      "type": "box",
+      "x": 350,
+      "y": 280,
+      "width": 55,
+      "height": 35,
+      "depth": 45,
+      "restitution": 0.45,
+      "friction": 0.12,
+      "mass": 2.2,
+      "isStatic": false,
+      "color": {
+        "r": 0.4,
+        "g": 0.5,
+        "b": 0.2
+      }
+    },
+    {
+      "id": "circle_6",
+      "type": "circle",
+      "x": 450,
+      "y": 230,
+      "radius": 22,
+      "restitution": 0.88,
+      "friction": 0.02,
+      "mass": 0.9,
+      "isStatic": false,
+      "color": {
+        "r": 0.8,
+        "g": 0.3,
+        "b": 0.6
+      }
+    },
+    {
+      "id": "box_6",
+      "type": "box",
+      "x": 550,
+      "y": 260,
+      "width": 48,
+      "height": 48,
+      "depth": 48,
+      "restitution": 0.58,
+      "friction": 0.09,
+      "mass": 2.0,
+      "isStatic": false,
+      "color": {
+        "r": 0.25,
+        "g": 0.65,
+        "b": 0.45
+      }
+    },
+    {
+      "id": "circle_7",
+      "type": "circle",
+      "x": 650,
+      "y": 220,
+      "radius": 32,
+      "restitution": 0.78,
+      "friction": 0.06,
+      "mass": 1.3,
+      "isStatic": false,
+      "color": {
+        "r": 0.55,
+        "g": 0.15,
+        "b": 0.8
+      }
+    },
+    {
+      "id": "box_7",
+      "type": "box",
+      "x": 175,
+      "y": 350,
+      "width": 42,
+      "height": 42,
+      "depth": 42,
+      "restitution": 0.52,
+      "friction": 0.11,
+      "mass": 1.7,
+      "isStatic": false,
+      "color": {
+        "r": 0.15,
+        "g": 0.35,
+        "b": 0.65
+      }
+    },
+    {
+      "id": "circle_8",
+      "type": "circle",
+      "x": 275,
+      "y": 320,
+      "radius": 26,
+      "restitution": 0.82,
+      "friction": 0.03,
+      "mass": 1.0,
+      "isStatic": false,
+      "isFixed": true,
+      "color": {
+        "r": 0.4,
+        "g": 0.4,
+        "b": 0.4
+      }
+    }
+  ],
+  "inventory": [
+    {
+      "id": "inv_sphere_small",
+      "displayName": "Small Sphere",
+      "count": 5,
+      "objectProperties": {
+        "type": "circle",
+        "radius": 15,
+        "mass": 0.5,
+        "restitution": 0.8,
+        "friction": 0.02,
+        "color": { "r": 0.5, "g": 0.5, "b": 1.0 },
+        "configLimits": {
+          "mass": { "min": 0.2, "max": 1.5 },
+          "friction": { "min": 0.0, "max": 0.2 },
+          "restitution": { "min": 0.6, "max": 0.95 }
+        }
+      }
+    },
+    {
+      "id": "inv_box_small",
+      "displayName": "Small Box",
+      "count": 3,
+      "objectProperties": {
+        "type": "box",
+        "width": 30,
+        "height": 30,
+        "depth": 30,
+        "mass": 1,
+        "restitution": 0.4,
+        "friction": 0.05,
+        "color": { "r": 0.5, "g": 1.0, "b": 0.5 },
+        "configLimits": {
+          "mass": { "min": 0.8, "max": 8.0 },
+          "friction": { "min": 0.02, "max": 0.7 },
+          "restitution": { "min": 0.1, "max": 0.7 }
+        }
+      }
+    }
+  ]
+}

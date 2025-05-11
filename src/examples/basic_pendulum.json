@@ -1,0 +1,60 @@
+{
+  "world": {
+    "width": 800,
+    "height": 600,
+    "wallThickness": 60,
+    "gravity": { "x": 0, "y": -1 }
+  },
+  "objects": [
+    {
+      "id": "weight",
+      "type": "circle",
+      "x": 450,
+      "y": 400,
+      "radius": 40,
+      "restitution": 0.3,
+      "friction": 0,
+      "frictionAir": 0.001,
+      "mass": 2,
+      "isStatic": false,
+      "color": {
+        "r": 0.8,
+        "g": 0.2,
+        "b": 0.2
+      }
+    },
+    {
+      "id": "pivot",
+      "type": "box",
+      "x": 400,
+      "y": 400,
+      "width": 20,
+      "height": 20,
+      "depth": 20,
+      "restitution": 0,
+      "friction": 0,
+      "mass": 1,
+      "isStatic": true,
+      "color": {
+        "r": 0.2,
+        "g": 0.2,
+        "b": 0.2
+      }
+    }
+  ],
+  "constraints": [
+    {
+      "type": "string",
+      "bodyA": "pivot",
+      "bodyB": "weight",
+      "stiffness": 0.9,
+      "damping": 0.1,
+      "length": 300,
+      "render": {
+        "visible": true,
+        "lineWidth": 2,
+        "strokeStyle": "#FFFFFF"
+      }
+    }
+  ]
+}
