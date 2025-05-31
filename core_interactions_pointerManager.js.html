@@ -1,0 +1,418 @@
+<!DOCTYPE html><html lang="en" style="font-size:16px"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="Project Team"><meta name="description" content="Integration of Matter.js and Babylon.js"><title>Source: core/interactions/pointerManager.js</title><!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]--><script src="scripts/third-party/hljs.js" defer="defer"></script><script src="scripts/third-party/hljs-line-num.js" defer="defer"></script><script src="scripts/third-party/popper.js" defer="defer"></script><script src="scripts/third-party/tippy.js" defer="defer"></script><script src="scripts/third-party/tocbot.min.js"></script><script>var baseURL="/",locationPathname="";baseURL=(locationPathname=document.location.pathname).substr(0,locationPathname.lastIndexOf("/")+1)</script><link rel="stylesheet" href="styles/clean-jsdoc-theme.min.css"><svg aria-hidden="true" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display:none"><defs><symbol id="copy-icon" viewbox="0 0 488.3 488.3"><g><path d="M314.25,85.4h-227c-21.3,0-38.6,17.3-38.6,38.6v325.7c0,21.3,17.3,38.6,38.6,38.6h227c21.3,0,38.6-17.3,38.6-38.6V124    C352.75,102.7,335.45,85.4,314.25,85.4z M325.75,449.6c0,6.4-5.2,11.6-11.6,11.6h-227c-6.4,0-11.6-5.2-11.6-11.6V124    c0-6.4,5.2-11.6,11.6-11.6h227c6.4,0,11.6,5.2,11.6,11.6V449.6z"/><path d="M401.05,0h-227c-21.3,0-38.6,17.3-38.6,38.6c0,7.5,6,13.5,13.5,13.5s13.5-6,13.5-13.5c0-6.4,5.2-11.6,11.6-11.6h227    c6.4,0,11.6,5.2,11.6,11.6v325.7c0,6.4-5.2,11.6-11.6,11.6c-7.5,0-13.5,6-13.5,13.5s6,13.5,13.5,13.5c21.3,0,38.6-17.3,38.6-38.6    V38.6C439.65,17.3,422.35,0,401.05,0z"/></g></symbol><symbol id="search-icon" viewBox="0 0 512 512"><g><g><path d="M225.474,0C101.151,0,0,101.151,0,225.474c0,124.33,101.151,225.474,225.474,225.474    c124.33,0,225.474-101.144,225.474-225.474C450.948,101.151,349.804,0,225.474,0z M225.474,409.323    c-101.373,0-183.848-82.475-183.848-183.848S124.101,41.626,225.474,41.626s183.848,82.475,183.848,183.848    S326.847,409.323,225.474,409.323z"/></g></g><g><g><path d="M505.902,476.472L386.574,357.144c-8.131-8.131-21.299-8.131-29.43,0c-8.131,8.124-8.131,21.306,0,29.43l119.328,119.328    c4.065,4.065,9.387,6.098,14.715,6.098c5.321,0,10.649-2.033,14.715-6.098C514.033,497.778,514.033,484.596,505.902,476.472z"/></g></g></symbol><symbol id="font-size-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M11.246 15H4.754l-2 5H.6L7 4h2l6.4 16h-2.154l-2-5zm-.8-2L8 6.885 5.554 13h4.892zM21 12.535V12h2v8h-2v-.535a4 4 0 1 1 0-6.93zM19 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></symbol><symbol id="add-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"/></symbol><symbol id="minus-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M5 11h14v2H5z"/></symbol><symbol id="dark-theme-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M10 7a7 7 0 0 0 12 4.9v.1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2h.1A6.979 6.979 0 0 0 10 7zm-6 5a8 8 0 0 0 15.062 3.762A9 9 0 0 1 8.238 4.938 7.999 7.999 0 0 0 4 12z"/></symbol><symbol id="light-theme-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/></symbol><symbol id="reset-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M18.537 19.567A9.961 9.961 0 0 1 12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10c0 2.136-.67 4.116-1.81 5.74L17 12h3a8 8 0 1 0-2.46 5.772l.997 1.795z"/></symbol><symbol id="down-icon" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.7803 6.21967C13.0732 6.51256 13.0732 6.98744 12.7803 7.28033L8.53033 11.5303C8.23744 11.8232 7.76256 11.8232 7.46967 11.5303L3.21967 7.28033C2.92678 6.98744 2.92678 6.51256 3.21967 6.21967C3.51256 5.92678 3.98744 5.92678 4.28033 6.21967L8 9.93934L11.7197 6.21967C12.0126 5.92678 12.4874 5.92678 12.7803 6.21967Z"></path></symbol><symbol id="codepen-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M16.5 13.202L13 15.535v3.596L19.197 15 16.5 13.202zM14.697 12L12 10.202 9.303 12 12 13.798 14.697 12zM20 10.869L18.303 12 20 13.131V10.87zM19.197 9L13 4.869v3.596l3.5 2.333L19.197 9zM7.5 10.798L11 8.465V4.869L4.803 9 7.5 10.798zM4.803 15L11 19.131v-3.596l-3.5-2.333L4.803 15zM4 13.131L5.697 12 4 10.869v2.262zM2 9a1 1 0 0 1 .445-.832l9-6a1 1 0 0 1 1.11 0l9 6A1 1 0 0 1 22 9v6a1 1 0 0 1-.445.832l-9 6a1 1 0 0 1-1.11 0l-9-6A1 1 0 0 1 2 15V9z"/></symbol><symbol id="close-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/></symbol><symbol id="menu-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></symbol></defs></svg></head><body data-theme="dark"><div class="sidebar-container"><div class="sidebar" id="sidebar"><a href="/" class="sidebar-title sidebar-title-anchor">Matter.js + Babylon.js Integration</a><div class="sidebar-items-container"><div class="sidebar-section-title with-arrow" data-isopen="false" id="sidebar-modules"><div>Modules</div><svg><use xlink:href="#down-icon"></use></svg></div><div class="sidebar-section-children-container"><div class="sidebar-section-children"><a href="module-core_historyManager.html">core/historyManager</a></div><div class="sidebar-section-children"><a href="module-core_interactionManager.html">core/interactionManager</a></div><div class="sidebar-section-children"><a href="module-core_interactions_configManager.html">core/interactions/configManager</a></div><div class="sidebar-section-children"><a href="module-core_interactions_dragManager.html">core/interactions/dragManager</a></div><div class="sidebar-section-children"><a href="module-core_interactions_inputManager.html">core/interactions/inputManager</a></div><div class="sidebar-section-children"><a href="module-core_interactions_placementManager.html">core/interactions/placementManager</a></div><div class="sidebar-section-children"><a href="module-core_interactions_pointerManager.html">core/interactions/pointerManager</a></div><div class="sidebar-section-children"><a href="module-core_physicsManager.html">core/physicsManager</a></div><div class="sidebar-section-children"><a href="module-core_postProcess_bloom.html">core/postProcess/bloom</a></div><div class="sidebar-section-children"><a href="module-core_sceneManager.html">core/sceneManager</a></div><div class="sidebar-section-children"><a href="module-core_simulation.html">core/simulation</a></div><div class="sidebar-section-children"><a href="module-core_soundManager.html">core/soundManager</a></div><div class="sidebar-section-children"><a href="module-core_ui_briefingPanel.html">core/ui/briefingPanel</a></div><div class="sidebar-section-children"><a href="module-core_ui_configPanel.html">core/ui/configPanel</a></div><div class="sidebar-section-children"><a href="module-core_ui_hintPanel.html">core/ui/hintPanel</a></div><div class="sidebar-section-children"><a href="module-core_ui_inventoryPanel.html">core/ui/inventoryPanel</a></div><div class="sidebar-section-children"><a href="module-core_ui_menuBar.html">core/ui/menuBar</a></div><div class="sidebar-section-children"><a href="module-core_ui_objectPreview.html">core/ui/objectPreview</a></div><div class="sidebar-section-children"><a href="module-core_ui_objectivesPanel.html">core/ui/objectivesPanel</a></div><div class="sidebar-section-children"><a href="module-core_ui_trashCan.html">core/ui/trashCan</a></div><div class="sidebar-section-children"><a href="module-core_ui_uiCore.html">core/ui/uiCore</a></div><div class="sidebar-section-children"><a href="module-core_uiManager.html">core/uiManager</a></div><div class="sidebar-section-children"><a href="module-index.html">index</a></div><div class="sidebar-section-children"><a href="module-musicPlayer.html">musicPlayer</a></div><div class="sidebar-section-children"><a href="module-utils_configLoader.html">utils/configLoader</a></div></div><div class="sidebar-section-title with-arrow" data-isopen="false" id="sidebar-classes"><div>Classes</div><svg><use xlink:href="#down-icon"></use></svg></div><div class="sidebar-section-children-container"><div class="sidebar-section-children"><a href="Condition.html">Condition</a></div><div class="sidebar-section-children"><a href="Condition_Condition.html">Condition</a></div><div class="sidebar-section-children"><a href="LeaveZoneEndCondition.html">LeaveZoneEndCondition</a></div><div class="sidebar-section-children"><a href="LeaveZoneEndCondition_Condition.html">Condition</a></div><div class="sidebar-section-children"><a href="LeaveZoneObjective.html">LeaveZoneObjective</a></div><div class="sidebar-section-children"><a href="LeaveZoneObjective_Objective.html">Objective</a></div><div class="sidebar-section-children"><a href="MaxHeightEndCondition.html">MaxHeightEndCondition</a></div><div class="sidebar-section-children"><a href="MaxHeightEndCondition_Condition.html">Condition</a></div><div class="sidebar-section-children"><a href="MaxHeightEndCondition_MaxHeightEndCondition.html">MaxHeightEndCondition</a></div><div class="sidebar-section-children"><a href="MaxHeightObjective.html">MaxHeightObjective</a></div><div class="sidebar-section-children"><a href="MaxHeightObjective_MaxHeightObjective.html">MaxHeightObjective</a></div><div class="sidebar-section-children"><a href="MaxHeightObjective_Objective.html">Objective</a></div><div class="sidebar-section-children"><a href="MinHeightObjective.html">MinHeightObjective</a></div><div class="sidebar-section-children"><a href="MinHeightObjective_MinHeightObjective.html">MinHeightObjective</a></div><div class="sidebar-section-children"><a href="MinHeightObjective_Objective.html">Objective</a></div><div class="sidebar-section-children"><a href="Objective.html">Objective</a></div><div class="sidebar-section-children"><a href="Objective_Objective.html">Objective</a></div><div class="sidebar-section-children"><a href="StayInZoneEndCondition.html">StayInZoneEndCondition</a></div><div class="sidebar-section-children"><a href="StayInZoneEndCondition_Condition.html">Condition</a></div><div class="sidebar-section-children"><a href="StayInZoneEndCondition_StayInZoneEndCondition.html">StayInZoneEndCondition</a></div><div class="sidebar-section-children"><a href="StayInZoneObjective.html">StayInZoneObjective</a></div><div class="sidebar-section-children"><a href="StayInZoneObjective_Objective.html">Objective</a></div><div class="sidebar-section-children"><a href="StayInZoneObjective_StayInZoneObjective.html">StayInZoneObjective</a></div><div class="sidebar-section-children"><a href="TimeLimitCondition.html">TimeLimitCondition</a></div><div class="sidebar-section-children"><a href="TimeLimitCondition_Condition.html">Condition</a></div><div class="sidebar-section-children"><a href="TimeLimitCondition_TimeLimitCondition.html">TimeLimitCondition</a></div></div><div class="sidebar-section-title with-arrow" data-isopen="false" id="sidebar-global"><div>Global</div><svg><use xlink:href="#down-icon"></use></svg></div><div class="sidebar-section-children-container"><div class="sidebar-section-children"><a href="global.html#createEndMenu">createEndMenu</a></div><div class="sidebar-section-children"><a href="global.html#createLevelSelectMenu">createLevelSelectMenu</a></div><div class="sidebar-section-children"><a href="global.html#createMainMenu">createMainMenu</a></div><div class="sidebar-section-children"><a href="global.html#disposeEndMenu">disposeEndMenu</a></div><div class="sidebar-section-children"><a href="global.html#hideEndMenu">hideEndMenu</a></div><div class="sidebar-section-children"><a href="global.html#hideLevelSelectMenu">hideLevelSelectMenu</a></div><div class="sidebar-section-children"><a href="global.html#hideMainMenu">hideMainMenu</a></div><div class="sidebar-section-children"><a href="global.html#showEndMenu">showEndMenu</a></div><div class="sidebar-section-children"><a href="global.html#showLevelSelectMenu">showLevelSelectMenu</a></div><div class="sidebar-section-children"><a href="global.html#showMainMenu">showMainMenu</a></div></div></div></div></div><div class="navbar-container" id="VuAckcnZhf"><nav class="navbar"><div class="navbar-left-items"><div class="navbar-item"><a id="" href="#" target="_blank">GitHub</a></div></div><div class="navbar-right-items"><div class="navbar-right-item"><button class="icon-button search-button" aria-label="open-search"><svg><use xlink:href="#search-icon"></use></svg></button></div><div class="navbar-right-item"><button class="icon-button theme-toggle" aria-label="toggle-theme"><svg><use class="theme-svg-use" xlink:href="#light-theme-icon"></use></svg></button></div><div class="navbar-right-item"><button class="icon-button font-size" aria-label="change-font-size"><svg><use xlink:href="#font-size-icon"></use></svg></button></div></div><nav></nav></nav></div><div class="toc-container"><div class="toc-content"><span class="bold">On this page</span><div id="eed4d2a0bfd64539bb9df78095dec881"></div></div></div><div class="body-wrapper"><div class="main-content"><div class="main-wrapper"><section id="source-page" class="source-page"><header><h1 id="title" class="has-anchor">core_interactions_pointerManager.js</h1></header><article><pre class="prettyprint source lang-js"><code>import * as BABYLON from '@babylonjs/core';
+import * as Matter from 'matter-js';
+import { getScene, getCamera, getCanvas } from '../sceneManager.js';
+import { getPhysicsEngine } from '../physicsManager.js';
+import { getApplicationMode, handleRemoveItem, triggerConfigUpdateAndReload, bodies as simBodies, currentConfig as simCurrentConfig } from '../simulation.js';
+import { showTrashCan, hideTrashCan, isPointerOverTrashCan } from '../uiManager.js';
+import { 
+    getMatterPointerCoordinates, 
+    getInteractionMode, 
+    getPointerObserver,
+    setPointerObserver, 
+    getPointerInteractionCallback,
+    setIsDragging,
+    getIsDragging,
+    setPointerInteractionCallback as setInputPointerInteractionCallback
+} from './inputManager.js';
+import { 
+    startDragging, 
+    stopDragging,
+    applyRotationToDraggedBody
+} from './dragManager.js';
+import { 
+    updatePlacementPreview, 
+    hidePlacementPreview
+} from './placementManager.js';
+import {
+    selectObjectForConfig,
+    clearConfigSelectionHighlight
+} from './configManager.js';
+
+/**
+ * @module core/interactions/pointerManager
+ * @description Manages pointer (mouse/touch) interactions within the Babylon.js scene.
+ * This module is responsible for attaching pointer event listeners and dispatching
+ * actions based on the event type, current application mode, and interaction mode.
+ * It coordinates with dragManager, placementManager, configManager, and simulation
+ * to handle object dragging, placement, configuration selection, and removal via trash can.
+ */
+
+let pointerInteractionCallback = null;
+
+/**
+ * Attaches pointer event listeners to the Babylon.js scene using its onPointerObservable.
+ * It sets up a callback function (typically from `simulation.js`) to handle high-level
+ * interaction logic based on pointer events. Ensures that any previous pointer observer
+ * is removed and cleans up any lingering interaction states.
+ *
+ * @param {module:core/interactions/inputManager.PointerInteractionHandler} interactionCallback -
+ *        A callback function from `simulation.js` to handle pointer events.
+ *        It receives Babylon's `PointerInfo` and Matter.js world coordinates.
+ */
+function attachPointerListener(interactionCallback) {
+    const scene = getScene();
+    if (!scene) return;
+
+    pointerInteractionCallback = interactionCallback;
+    setInputPointerInteractionCallback(interactionCallback);
+
+    if (getPointerObserver()) {
+        scene.onPointerObservable.remove(getPointerObserver());
+        console.log("Removed previous pointer observer.");
+    }
+
+    cleanupLingering();
+
+    setPointerObserver(scene.onPointerObservable.add(handlePointerEvent));
+    console.log("Pointer listener attached to scene.");
+}
+
+/**
+ * Cleans up any lingering interaction-related states or objects.
+ * This includes removing active Matter.js mouse constraints, hiding the trash can UI,
+ * hiding any active placement preview, and clearing configuration selection highlights.
+ * Called during `attachPointerListener` to ensure a clean state.
+ */
+function cleanupLingering() {
+    const physicsEngine = getPhysicsEngine();
+    
+    if (physicsEngine) {
+        const constraints = Matter.Composite.allConstraints(physicsEngine.world);
+        constraints.forEach(constraint => {
+            if (constraint.label === 'Mouse Constraint') {
+                Matter.World.remove(physicsEngine.world, constraint, true);
+                console.log("Cleaned up lingering mouse constraint.");
+            }
+        });
+    }
+    
+    hideTrashCan();
+    hidePlacementPreview();
+    clearConfigSelectionHighlight();
+}
+
+/**
+ * Central handler for all Babylon.js pointer events (POINTERDOWN, POINTERMOVE, POINTERUP, POINTERWHEEL).
+ * This function determines the appropriate action based on the current application mode
+ * (`construction`, `configuration`, `simulation`), interaction mode (`drag`, `place`),
+ * and the type of pointer event.
+ *
+ * Actions include:
+ * - Invoking the main `pointerInteractionCallback` (from `simulation.js`) for general handling.
+ * - Updating placement previews during pointer move in 'place' mode.
+ * - Handling object rotation via mouse wheel during drag in 'construction' or 'configuration' modes.
+ * - Initiating object configuration selection on click in 'configuration' mode.
+ * - Managing drag start/end in 'construction' or 'configuration' modes.
+ * - Handling right-click to cancel placement in 'place' mode.
+ * - Cancelling drag if simulation starts while dragging.
+ *
+ * @param {BABYLON.PointerInfo} pointerInfo - Detailed information about the pointer event.
+ */
+function handlePointerEvent(pointerInfo) {
+    const scene = getScene();
+    const camera = getCamera();
+    const canvas = getCanvas();
+    const physicsEngine = getPhysicsEngine();
+
+    if (!scene || !camera || !canvas || !physicsEngine) return;    const currentAppMode = getApplicationMode();
+    const pointerCoords = getMatterPointerCoordinates(scene, camera);
+    const interactionMode = getInteractionMode();
+
+    if (pointerInteractionCallback) {
+        pointerInteractionCallback(pointerInfo, pointerCoords);
+    }
+
+    if (interactionMode === 'place' &amp;&amp; 
+        pointerInfo.type === BABYLON.PointerEventTypes.POINTERMOVE &amp;&amp; 
+        pointerCoords) {
+        
+        const previewState = updatePlacementPreview(pointerCoords);        
+        if (previewState.isValid) {
+            pointerInteractionCallback(
+                { type: BABYLON.PointerEventTypes.POINTERDOWN, event: { button: 0 } },
+                pointerCoords
+            );
+        }
+    }
+
+    if (pointerInfo.type === BABYLON.PointerEventTypes.POINTERWHEEL) {
+        const event = pointerInfo.event;
+        const isDragging = getIsDragging();
+        console.log(`PointerManager: POINTERWHEEL - isDragging: ${isDragging}, interactionMode: ${interactionMode}, currentAppMode: ${currentAppMode}`);
+
+        if (isDragging &amp;&amp; interactionMode === 'drag' &amp;&amp; (currentAppMode === 'construction' || currentAppMode === 'configuration')) {
+            console.log("PointerManager: POINTERWHEEL - Applying rotation to dragged body.");
+            const delta = event.deltaY || event.detail || event.wheelDelta;
+            applyRotationToDraggedBody(delta);
+            event.preventDefault();
+        } else {
+            console.log("PointerManager: POINTERWHEEL - Conditions for rotation not met, allowing default camera zoom (if active).");
+
+        }
+        return;
+    }
+
+    if (currentAppMode === 'configuration' &amp;&amp; 
+        pointerInfo.type === BABYLON.PointerEventTypes.POINTERDOWN &amp;&amp; 
+        pointerInfo.event.button === 0 &amp;&amp; 
+        !getIsDragging()) {
+        
+        handleConfigClick(pointerInfo);
+        return;
+    }
+
+    if (interactionMode === 'drag' &amp;&amp; (currentAppMode === 'construction' || currentAppMode === 'configuration')) {
+        if (!pointerCoords) return;
+
+        switch (pointerInfo.type) {
+            case BABYLON.PointerEventTypes.POINTERDOWN:
+                if (pointerInfo.event.button === 0 &amp;&amp; !getIsDragging()) {
+                    handleDragStart(pointerInfo, pointerCoords);
+                }
+                break;
+
+            case BABYLON.PointerEventTypes.POINTERMOVE:
+                break;
+
+            case BABYLON.PointerEventTypes.POINTERUP:
+                if (pointerInfo.event.button === 0 &amp;&amp; getIsDragging()) {
+                    handleDragEnd(pointerInfo, scene);
+                }
+                break;
+        }    } else if (interactionMode === 'place') {
+        if (pointerInfo.type === BABYLON.PointerEventTypes.POINTERDOWN &amp;&amp; pointerInfo.event.button === 2) {
+            if (pointerInteractionCallback) {
+                pointerInteractionCallback({ type: 'cancel-placement' }, null);
+            }
+        }
+    } else if (currentAppMode === 'simulation' &amp;&amp; getIsDragging()) {
+        console.log("Simulation mode started during drag, cancelling drag.");
+        setIsDragging(false);
+        stopDragging();
+    }
+}
+
+/**
+ * Handles the start of a drag operation (typically on POINTERDOWN).
+ * If a pickable, non-static, non-fixed physics object is under the pointer,
+ * it initiates dragging for that object using `dragManager.startDragging`.
+ * Prevents default event behavior to stop camera movement or other interactions.
+ *
+ * @param {BABYLON.PointerInfo} pointerInfo - The Babylon.js pointer event information.
+ * @param {{x: number, y: number}} pointerCoords - The Matter.js world coordinates of the pointer.
+ */
+function handleDragStart(pointerInfo, pointerCoords) {
+    const scene = getScene();
+    const physicsEngine = getPhysicsEngine();
+    
+    const pickResult = scene.pick(scene.pointerX, scene.pointerY);
+    if (pickResult.hit &amp;&amp; pickResult.pickedMesh &amp;&amp; 
+        (!pickResult.pickedMesh.layerMask || pickResult.pickedMesh.layerMask !== 0x20000000)) {
+        
+        const physicsBodies = Matter.Composite.allBodies(physicsEngine.world);
+        const pickedBody = physicsBodies.find(b => 
+            `mesh-${b.configId}` === pickResult.pickedMesh.name &amp;&amp; !b.isStatic);
+
+        if (pickedBody) {
+            const configData = simCurrentConfig.objects.find(o => o.id === pickedBody.configId);
+            if (configData?.isFixed) {
+                console.log(`Object ${pickedBody.configId} is fixed, dragging prevented.`);
+                pointerInfo.event.preventDefault();
+                return;
+            }
+
+            startDragging(pickedBody, pickResult.pickedMesh, pointerCoords);
+            pointerInfo.event.preventDefault();
+        }
+    }
+}
+
+/**
+ * Handles the end of a drag operation (typically on POINTERUP).
+ * Stops the drag using `dragManager.stopDragging`. If the object is dropped over
+ * the trash can UI and is not fixed, it triggers `handleRemoveItem` from `simulation.js`.
+ * Otherwise, it triggers a configuration update and reload to save the object's new
+ * position and angle. Includes error handling and fallback mechanisms.
+ *
+ * @param {BABYLON.PointerInfo} pointerInfo - The Babylon.js pointer event information.
+ * @param {BABYLON.Scene} scene - The current Babylon.js scene.
+ */
+function handleDragEnd(pointerInfo, scene) {
+    console.log("handleDragEnd called");
+    
+    const droppedBody = stopDragging();
+    if (!droppedBody || !droppedBody.id) {
+        console.warn("Invalid dropped body or missing ID");
+        return;
+    }
+    
+    const pointerScreenCoords = { x: scene.pointerX, y: scene.pointerY };
+    console.log(`Pointer coordinates at drop: ${pointerScreenCoords.x}, ${pointerScreenCoords.y}`);
+    
+    const droppedConfigData = droppedBody.id ? 
+                             simCurrentConfig.objects.find(o => o.id === droppedBody.id) : 
+                             null;
+    
+    console.log(`Checking if pointer is over trash can...`);
+    
+    try {
+        const isOverTrashManual = isNearTrashArea(pointerScreenCoords.x, pointerScreenCoords.y);
+        const isOverTrashNormal = isPointerOverTrashCan(pointerScreenCoords.x, pointerScreenCoords.y);
+        
+        console.log(`Manual trash area check: ${isOverTrashManual}`);
+        console.log(`Standard trash area check: ${isOverTrashNormal}`);
+        
+        const isOverTrash = isOverTrashManual || isOverTrashNormal;
+        console.log(`Final trash detection result: ${isOverTrash}`);
+        
+        if (isOverTrash) {
+            console.log(`Dropping body ${droppedBody.id} onto trash can.`);
+            if (droppedBody.id !== null &amp;&amp; !droppedConfigData?.isFixed) {
+                console.log(`Attempting to remove item with ID: ${droppedBody.id}`);
+                
+                try {
+                    if (typeof handleRemoveItem === 'function') {
+                        handleRemoveItem(droppedBody.id);
+                        console.log(`Item removal function called successfully for ID: ${droppedBody.id}`);
+                    } else {
+                        console.error("handleRemoveItem is not a function:", handleRemoveItem);
+                    }
+                } catch (err) {
+                    console.error("Error during item removal:", err);
+                }
+            } else {
+                if (droppedConfigData?.isFixed) {
+                    console.log(`Object ${droppedBody.id} is fixed, deletion prevented.`);
+                    triggerConfigUpdateAndReload(droppedBody.id, droppedBody.position, droppedBody.angle);
+                } else {
+                    console.warn(`Cannot remove: droppedBody.id is ${droppedBody.id} or droppedConfigData not found`);
+                }
+            }
+        } else {
+            console.log("Normal drop - updating position.");
+            console.log("Dropped body:", droppedBody.id, "at", droppedBody.position, "angle", droppedBody.angle);
+            triggerConfigUpdateAndReload(droppedBody.id, droppedBody.position, droppedBody.angle);
+        }
+    } catch (error) {
+        console.error("Error in handleDragEnd:", error);
+        if (droppedBody.id !== null) {
+            triggerConfigUpdateAndReload(droppedBody.id, droppedBody.position, droppedBody.angle);
+        }
+    }
+}
+
+/**
+ * A simple fallback function to detect if the pointer is near the trash can area.
+ * This checks if the pointer's screen coordinates (x, y) are within a 100x100 pixel
+ * area in the bottom-right corner of the canvas. Used as a secondary check if
+ * `uiManager.isPointerOverTrashCan` might not be reliable in all cases.
+ *
+ * @param {number} x - The screen X-coordinate of the pointer.
+ * @param {number} y - The screen Y-coordinate of the pointer.
+ * @returns {boolean} True if the pointer is considered near the trash area, false otherwise.
+ */
+function isNearTrashArea(x, y) {
+    const engine = BABYLON.EngineStore.LastCreatedEngine;
+    const width = engine.getRenderWidth();
+    const height = engine.getRenderHeight();
+    
+    const isNearTrash = x > width - 100 &amp;&amp; y > height - 100;
+    console.log(`Screen dimensions: ${width}x${height}, isNearTrash: ${isNearTrash}`);
+    return isNearTrash;
+}
+
+/**
+ * Handles clicks when the application is in 'configuration' mode.
+ * If a pickable, non-fixed physics object is clicked, it retrieves the object's
+ * current properties (mass, friction, restitution) and any configured limits
+ * (e.g., from its inventory definition). It then calls `configManager.selectObjectForConfig`
+ * to highlight the object and display the configuration panel.
+ * If empty space or a non-configurable object is clicked, it clears any existing
+ * configuration selection.
+ *
+ * @param {BABYLON.PointerInfo} pointerInfo - The Babylon.js pointer event information.
+ */
+function handleConfigClick(pointerInfo) {
+    const scene = getScene();
+    const physicsEngine = getPhysicsEngine();
+    
+    const pickResult = scene.pick(scene.pointerX, scene.pointerY);
+    if (pickResult.hit &amp;&amp; pickResult.pickedMesh &amp;&amp; 
+        (!pickResult.pickedMesh.layerMask || pickResult.pickedMesh.layerMask !== 0x20000000)) {
+        
+        const physicsBodies = Matter.Composite.allBodies(physicsEngine.world);
+        const pickedBody = physicsBodies.find(b => `mesh-${b.configId}` === pickResult.pickedMesh.name);
+
+        if (pickedBody) {
+            const objectId = pickedBody.configId;
+            
+            const bodyData = simBodies.get(objectId);
+            const configData = simCurrentConfig.objects.find(o => o.id === objectId);
+
+            if (bodyData &amp;&amp; configData) {
+                if (configData.isFixed) {
+                    console.log(`Object ${objectId} is fixed, configuration prevented.`);
+                    pointerInfo.event.preventDefault();
+                    return;
+                }
+
+                let limits = {};
+                const baseIdMatch = objectId.match(/^([a-zA-Z0-9_]+?)_\d+$/);
+                if (baseIdMatch &amp;&amp; simCurrentConfig &amp;&amp; simCurrentConfig.inventory) {
+                    const baseInventoryId = baseIdMatch[1];
+                    const inventoryItem = simCurrentConfig.inventory.find(item => item.id === baseInventoryId);
+                    if (inventoryItem &amp;&amp; inventoryItem.objectProperties &amp;&amp; inventoryItem.objectProperties.configLimits) {
+                        limits = inventoryItem.objectProperties.configLimits;
+                        console.log(`Found limits for ${baseInventoryId}:`, limits);
+                    } else {
+                        console.log(`No specific limits found for base ID ${baseInventoryId}, using defaults.`);
+                    }
+                } else {
+                    console.log(`Could not extract base ID or inventory not available for ${objectId}, using default limits.`);
+                }
+
+                const properties = {
+                    mass: bodyData.mass,
+                    friction: bodyData.friction,
+                    restitution: bodyData.restitution
+                };
+                console.log(`Configuration click on ${objectId}, properties:`, properties);
+                
+                selectObjectForConfig(pickResult.pickedMesh, objectId, properties, limits);
+                pointerInfo.event.preventDefault();
+                return;
+            } else {
+                console.warn(`Could not find body data or config data for clicked object ${objectId}`);
+                clearConfigSelectionHighlight();
+            }
+        } else {
+            clearConfigSelectionHighlight();
+        }
+    } else {
+        clearConfigSelectionHighlight();
+    }
+}
+
+/**
+ * Sets the local pointer interaction callback function for this module.
+ * This function is primarily intended to be called by `attachPointerListener`
+ * to store the callback provided by `simulation.js`.
+ *
+ * @param {module:core/interactions/inputManager.PointerInteractionHandler} callback -
+ *        The callback function to be stored.
+ */
+function setPointerInteractionCallback(callback) {
+    if (typeof callback === 'function') {
+        pointerInteractionCallback = callback;
+    }
+}
+
+export {
+    attachPointerListener,
+    cleanupLingering,
+    handlePointerEvent,
+    setPointerInteractionCallback
+};
+</code></pre></article></section></div></div></div><div class="search-container" id="PkfLWpAbet" style="display:none"><div class="wrapper" id="iCxFxjkHbP"><button class="icon-button search-close-button" id="VjLlGakifb" aria-label="close search"><svg><use xlink:href="#close-icon"></use></svg></button><div class="search-box-c"><svg><use xlink:href="#search-icon"></use></svg> <input type="text" id="vpcKVYIppa" class="search-input" placeholder="Search..." autofocus></div><div class="search-result-c" id="fWwVHRuDuN"><span class="search-result-c-text">Type anything to view search result</span></div></div></div><div class="mobile-menu-icon-container"><button class="icon-button" id="mobile-menu" data-isopen="false" aria-label="menu"><svg><use xlink:href="#menu-icon"></use></svg></button></div><div id="mobile-sidebar" class="mobile-sidebar-container"><div class="mobile-sidebar-wrapper"><a href="/" class="sidebar-title sidebar-title-anchor">Matter.js + Babylon.js Integration</a><div class="mobile-nav-links"><div class="navbar-item"><a id="" href="#" target="_blank">GitHub</a></div></div><div class="mobile-sidebar-items-c"><div class="sidebar-section-title with-arrow" data-isopen="false" id="sidebar-modules"><div>Modules</div><svg><use xlink:href="#down-icon"></use></svg></div><div class="sidebar-section-children-container"><div class="sidebar-section-children"><a href="module-core_historyManager.html">core/historyManager</a></div><div class="sidebar-section-children"><a href="module-core_interactionManager.html">core/interactionManager</a></div><div class="sidebar-section-children"><a href="module-core_interactions_configManager.html">core/interactions/configManager</a></div><div class="sidebar-section-children"><a href="module-core_interactions_dragManager.html">core/interactions/dragManager</a></div><div class="sidebar-section-children"><a href="module-core_interactions_inputManager.html">core/interactions/inputManager</a></div><div class="sidebar-section-children"><a href="module-core_interactions_placementManager.html">core/interactions/placementManager</a></div><div class="sidebar-section-children"><a href="module-core_interactions_pointerManager.html">core/interactions/pointerManager</a></div><div class="sidebar-section-children"><a href="module-core_physicsManager.html">core/physicsManager</a></div><div class="sidebar-section-children"><a href="module-core_postProcess_bloom.html">core/postProcess/bloom</a></div><div class="sidebar-section-children"><a href="module-core_sceneManager.html">core/sceneManager</a></div><div class="sidebar-section-children"><a href="module-core_simulation.html">core/simulation</a></div><div class="sidebar-section-children"><a href="module-core_soundManager.html">core/soundManager</a></div><div class="sidebar-section-children"><a href="module-core_ui_briefingPanel.html">core/ui/briefingPanel</a></div><div class="sidebar-section-children"><a href="module-core_ui_configPanel.html">core/ui/configPanel</a></div><div class="sidebar-section-children"><a href="module-core_ui_hintPanel.html">core/ui/hintPanel</a></div><div class="sidebar-section-children"><a href="module-core_ui_inventoryPanel.html">core/ui/inventoryPanel</a></div><div class="sidebar-section-children"><a href="module-core_ui_menuBar.html">core/ui/menuBar</a></div><div class="sidebar-section-children"><a href="module-core_ui_objectPreview.html">core/ui/objectPreview</a></div><div class="sidebar-section-children"><a href="module-core_ui_objectivesPanel.html">core/ui/objectivesPanel</a></div><div class="sidebar-section-children"><a href="module-core_ui_trashCan.html">core/ui/trashCan</a></div><div class="sidebar-section-children"><a href="module-core_ui_uiCore.html">core/ui/uiCore</a></div><div class="sidebar-section-children"><a href="module-core_uiManager.html">core/uiManager</a></div><div class="sidebar-section-children"><a href="module-index.html">index</a></div><div class="sidebar-section-children"><a href="module-musicPlayer.html">musicPlayer</a></div><div class="sidebar-section-children"><a href="module-utils_configLoader.html">utils/configLoader</a></div></div><div class="sidebar-section-title with-arrow" data-isopen="false" id="sidebar-classes"><div>Classes</div><svg><use xlink:href="#down-icon"></use></svg></div><div class="sidebar-section-children-container"><div class="sidebar-section-children"><a href="Condition.html">Condition</a></div><div class="sidebar-section-children"><a href="Condition_Condition.html">Condition</a></div><div class="sidebar-section-children"><a href="LeaveZoneEndCondition.html">LeaveZoneEndCondition</a></div><div class="sidebar-section-children"><a href="LeaveZoneEndCondition_Condition.html">Condition</a></div><div class="sidebar-section-children"><a href="LeaveZoneObjective.html">LeaveZoneObjective</a></div><div class="sidebar-section-children"><a href="LeaveZoneObjective_Objective.html">Objective</a></div><div class="sidebar-section-children"><a href="MaxHeightEndCondition.html">MaxHeightEndCondition</a></div><div class="sidebar-section-children"><a href="MaxHeightEndCondition_Condition.html">Condition</a></div><div class="sidebar-section-children"><a href="MaxHeightEndCondition_MaxHeightEndCondition.html">MaxHeightEndCondition</a></div><div class="sidebar-section-children"><a href="MaxHeightObjective.html">MaxHeightObjective</a></div><div class="sidebar-section-children"><a href="MaxHeightObjective_MaxHeightObjective.html">MaxHeightObjective</a></div><div class="sidebar-section-children"><a href="MaxHeightObjective_Objective.html">Objective</a></div><div class="sidebar-section-children"><a href="MinHeightObjective.html">MinHeightObjective</a></div><div class="sidebar-section-children"><a href="MinHeightObjective_MinHeightObjective.html">MinHeightObjective</a></div><div class="sidebar-section-children"><a href="MinHeightObjective_Objective.html">Objective</a></div><div class="sidebar-section-children"><a href="Objective.html">Objective</a></div><div class="sidebar-section-children"><a href="Objective_Objective.html">Objective</a></div><div class="sidebar-section-children"><a href="StayInZoneEndCondition.html">StayInZoneEndCondition</a></div><div class="sidebar-section-children"><a href="StayInZoneEndCondition_Condition.html">Condition</a></div><div class="sidebar-section-children"><a href="StayInZoneEndCondition_StayInZoneEndCondition.html">StayInZoneEndCondition</a></div><div class="sidebar-section-children"><a href="StayInZoneObjective.html">StayInZoneObjective</a></div><div class="sidebar-section-children"><a href="StayInZoneObjective_Objective.html">Objective</a></div><div class="sidebar-section-children"><a href="StayInZoneObjective_StayInZoneObjective.html">StayInZoneObjective</a></div><div class="sidebar-section-children"><a href="TimeLimitCondition.html">TimeLimitCondition</a></div><div class="sidebar-section-children"><a href="TimeLimitCondition_Condition.html">Condition</a></div><div class="sidebar-section-children"><a href="TimeLimitCondition_TimeLimitCondition.html">TimeLimitCondition</a></div></div><div class="sidebar-section-title with-arrow" data-isopen="false" id="sidebar-global"><div>Global</div><svg><use xlink:href="#down-icon"></use></svg></div><div class="sidebar-section-children-container"><div class="sidebar-section-children"><a href="global.html#createEndMenu">createEndMenu</a></div><div class="sidebar-section-children"><a href="global.html#createLevelSelectMenu">createLevelSelectMenu</a></div><div class="sidebar-section-children"><a href="global.html#createMainMenu">createMainMenu</a></div><div class="sidebar-section-children"><a href="global.html#disposeEndMenu">disposeEndMenu</a></div><div class="sidebar-section-children"><a href="global.html#hideEndMenu">hideEndMenu</a></div><div class="sidebar-section-children"><a href="global.html#hideLevelSelectMenu">hideLevelSelectMenu</a></div><div class="sidebar-section-children"><a href="global.html#hideMainMenu">hideMainMenu</a></div><div class="sidebar-section-children"><a href="global.html#showEndMenu">showEndMenu</a></div><div class="sidebar-section-children"><a href="global.html#showLevelSelectMenu">showLevelSelectMenu</a></div><div class="sidebar-section-children"><a href="global.html#showMainMenu">showMainMenu</a></div></div></div><div class="mobile-navbar-actions"><div class="navbar-right-item"><button class="icon-button search-button" aria-label="open-search"><svg><use xlink:href="#search-icon"></use></svg></button></div><div class="navbar-right-item"><button class="icon-button theme-toggle" aria-label="toggle-theme"><svg><use class="theme-svg-use" xlink:href="#light-theme-icon"></use></svg></button></div><div class="navbar-right-item"><button class="icon-button font-size" aria-label="change-font-size"><svg><use xlink:href="#font-size-icon"></use></svg></button></div></div></div></div><script type="text/javascript" src="scripts/core.min.js"></script><script src="scripts/search.min.js" defer="defer"></script><script src="scripts/third-party/fuse.js" defer="defer"></script><script type="text/javascript">var tocbotInstance=tocbot.init({tocSelector:"#eed4d2a0bfd64539bb9df78095dec881",contentSelector:".main-content",headingSelector:"h1, h2, h3",hasInnerContainers:!0,scrollContainer:".main-content",headingsOffset:130,onClick:bringLinkToView})</script></body></html>
