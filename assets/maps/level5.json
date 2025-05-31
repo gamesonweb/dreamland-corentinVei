@@ -1,0 +1,759 @@
+{
+    "briefingImage": "assets/images/tower.jpg",
+    "hintImagePath": "assets/images/level5hint.gif",
+    "world": {
+        "workingBounds": {
+            "x": 500,
+            "y": 0,
+            "width": 300,
+            "height": 600
+        },
+        "simulationBounds": {
+            "x": 0,
+            "y": 0,
+            "width": 2000,
+            "height": 1200
+        },
+        "wallThickness": 60,
+        "gravity": {
+            "x": 0,
+            "y": -1
+        }
+    },
+    "objects": [
+        {
+            "type": "box",
+            "width": 300,
+            "height": 10,
+            "depth": 50,
+            "mass": 1,
+            "restitution": 0.4,
+            "friction": 0.05,
+            "color": {
+                "r": 0.5,
+                "g": 1,
+                "b": 0.5
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.2,
+                    "max": 3
+                },
+                "friction": {
+                    "min": 0.1,
+                    "max": 0.9
+                },
+                "restitution": {
+                    "min": 0.1,
+                    "max": 0.5
+                }
+            },
+            "id": "map_long_small_0",
+            "x": 145.8813633282664,
+            "y": 553.6150933980829,
+            "isStatic": true,
+            "angle": -0.2808916571657108
+        },
+        {
+            "type": "box",
+            "width": 300,
+            "height": 10,
+            "depth": 50,
+            "mass": 1,
+            "restitution": 0.4,
+            "friction": 0.05,
+            "color": {
+                "r": 0.5,
+                "g": 1,
+                "b": 0.5
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.2,
+                    "max": 3
+                },
+                "friction": {
+                    "min": 0.1,
+                    "max": 0.9
+                },
+                "restitution": {
+                    "min": 0.1,
+                    "max": 0.5
+                }
+            },
+            "id": "map_long_small_1",
+            "x": 152.42267478640244,
+            "y": 434.26506618785413,
+            "isStatic": true,
+            "angle": -0.2851659532843409
+        },
+        {
+            "type": "box",
+            "width": 300,
+            "height": 10,
+            "depth": 50,
+            "mass": 1,
+            "restitution": 0.4,
+            "friction": 0.05,
+            "color": {
+                "r": 0.5,
+                "g": 1,
+                "b": 0.5
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.2,
+                    "max": 3
+                },
+                "friction": {
+                    "min": 0.1,
+                    "max": 0.9
+                },
+                "restitution": {
+                    "min": 0.1,
+                    "max": 0.5
+                }
+            },
+            "id": "map_long_small_2",
+            "x": 159.32569936781175,
+            "y": 319.63255623869134,
+            "isStatic": true,
+            "angle": -0.28516090454467913
+        },
+        {
+            "type": "box",
+            "width": 300,
+            "height": 10,
+            "depth": 50,
+            "mass": 1,
+            "restitution": 0.4,
+            "friction": 0.05,
+            "color": {
+                "r": 0.5,
+                "g": 1,
+                "b": 0.5
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.2,
+                    "max": 3
+                },
+                "friction": {
+                    "min": 0.1,
+                    "max": 0.9
+                },
+                "restitution": {
+                    "min": 0.1,
+                    "max": 0.5
+                }
+            },
+            "id": "map_long_small_3",
+            "x": 149.65376754548134,
+            "y": 200.33783626043027,
+            "isStatic": true,
+            "angle": -0.28247163334465
+        },
+        {
+            "type": "box",
+            "width": 300,
+            "height": 10,
+            "depth": 50,
+            "mass": 1,
+            "restitution": 0.4,
+            "friction": 0.05,
+            "color": {
+                "r": 0.5,
+                "g": 1,
+                "b": 0.5
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.2,
+                    "max": 3
+                },
+                "friction": {
+                    "min": 0.1,
+                    "max": 0.9
+                },
+                "restitution": {
+                    "min": 0.1,
+                    "max": 0.5
+                }
+            },
+            "id": "map_long_small_4",
+            "x": 150.5168055745798,
+            "y": 78.77260998929523,
+            "isStatic": true,
+            "angle": -0.28325346190756273
+        },
+        {
+            "type": "circle",
+            "radius": 15,
+            "mass": 0.5,
+            "restitution": 1,
+            "friction": 0,
+            "color": {
+                "r": 0.5,
+                "g": 0.5,
+                "b": 1
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.1,
+                    "max": 2
+                },
+                "friction": {
+                    "min": 0,
+                    "max": 0.1
+                },
+                "restitution": {
+                    "min": 0.5,
+                    "max": 1
+                }
+            },
+            "id": "map_sphere_small_6",
+            "x": 108.17080871208417,
+            "y": 585.0073120075963,
+            "isStatic": false,
+            "angle": -4.616729387653215
+        },
+        {
+            "type": "circle",
+            "radius": 15,
+            "mass": 0.5,
+            "restitution": 1,
+            "friction": 0,
+            "color": {
+                "r": 0.5,
+                "g": 0.5,
+                "b": 1
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.1,
+                    "max": 2
+                },
+                "friction": {
+                    "min": 0,
+                    "max": 0.1
+                },
+                "restitution": {
+                    "min": 0.5,
+                    "max": 1
+                }
+            },
+            "id": "map_sphere_small_7",
+            "x": 149.87118685856498,
+            "y": 572.9388219435924,
+            "isStatic": false,
+            "angle": 0.8676031399766296
+        },
+        {
+            "type": "circle",
+            "radius": 15,
+            "mass": 0.5,
+            "restitution": 0.9916666666666667,
+            "friction": 0,
+            "color": {
+                "r": 0.5,
+                "g": 0.5,
+                "b": 1
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.1,
+                    "max": 2
+                },
+                "friction": {
+                    "min": 0,
+                    "max": 0.1
+                },
+                "restitution": {
+                    "min": 0.5,
+                    "max": 1
+                }
+            },
+            "id": "map_sphere_small_8",
+            "x": 253.2754173968792,
+            "y": 543.1106065305705,
+            "isStatic": false,
+            "angle": 0.11602062991195944
+        },
+        {
+            "type": "circle",
+            "radius": 15,
+            "mass": 0.5,
+            "restitution": 1,
+            "friction": 0,
+            "color": {
+                "r": 0.5,
+                "g": 0.5,
+                "b": 1
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.1,
+                    "max": 2
+                },
+                "friction": {
+                    "min": 0,
+                    "max": 0.1
+                },
+                "restitution": {
+                    "min": 0.5,
+                    "max": 1
+                }
+            },
+            "id": "map_sphere_small_9",
+            "x": 29.56169568697577,
+            "y": 490.81226982197734,
+            "isStatic": false,
+            "angle": 0.10870683455230247
+        },
+        {
+            "type": "circle",
+            "radius": 15,
+            "mass": 0.5,
+            "restitution": 1,
+            "friction": 0,
+            "color": {
+                "r": 0.5,
+                "g": 0.5,
+                "b": 1
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.1,
+                    "max": 2
+                },
+                "friction": {
+                    "min": 0,
+                    "max": 0.1
+                },
+                "restitution": {
+                    "min": 0.5,
+                    "max": 1
+                }
+            },
+            "id": "map_sphere_small_10",
+            "x": 162.7495235559065,
+            "y": 451.7284125171437,
+            "isStatic": false,
+            "angle": -0.2941580249626541
+        },
+        {
+            "type": "circle",
+            "radius": 15,
+            "mass": 0.5,
+            "restitution": 1,
+            "friction": 0,
+            "color": {
+                "r": 0.5,
+                "g": 0.5,
+                "b": 1
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.1,
+                    "max": 2
+                },
+                "friction": {
+                    "min": 0,
+                    "max": 0.1
+                },
+                "restitution": {
+                    "min": 0.5,
+                    "max": 1
+                }
+            },
+            "id": "map_sphere_small_11",
+            "x": 32.99890931204107,
+            "y": 400.8892621794848,
+            "isStatic": false,
+            "angle": -0.5359463340083719
+        },
+        {
+            "type": "circle",
+            "radius": 15,
+            "mass": 0.5,
+            "restitution": 1,
+            "friction": 0,
+            "color": {
+                "r": 0.5,
+                "g": 0.5,
+                "b": 1
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.1,
+                    "max": 2
+                },
+                "friction": {
+                    "min": 0,
+                    "max": 0.1
+                },
+                "restitution": {
+                    "min": 0.5,
+                    "max": 1
+                }
+            },
+            "id": "map_sphere_small_12",
+            "x": 47.76912412771546,
+            "y": 372.8025778931697,
+            "isStatic": false,
+            "angle": 4.479992423728111
+        },
+        {
+            "type": "circle",
+            "radius": 15,
+            "mass": 0.5,
+            "restitution": 1,
+            "friction": 0,
+            "color": {
+                "r": 0.5,
+                "g": 0.5,
+                "b": 1
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.1,
+                    "max": 2
+                },
+                "friction": {
+                    "min": 0,
+                    "max": 0.1
+                },
+                "restitution": {
+                    "min": 0.5,
+                    "max": 1
+                }
+            },
+            "id": "map_sphere_small_13",
+            "x": 122.59277451389568,
+            "y": 350.9034744707852,
+            "isStatic": false,
+            "angle": -5.810592490527885
+        },
+        {
+            "type": "circle",
+            "radius": 15,
+            "mass": 0.5,
+            "restitution": 1,
+            "friction": 0,
+            "color": {
+                "r": 0.5,
+                "g": 0.5,
+                "b": 1
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.1,
+                    "max": 2
+                },
+                "friction": {
+                    "min": 0,
+                    "max": 0.1
+                },
+                "restitution": {
+                    "min": 0.5,
+                    "max": 1
+                }
+            },
+            "id": "map_sphere_small_14",
+            "x": 209.4654501011117,
+            "y": 203.3449603272268,
+            "isStatic": false,
+            "angle": -2.235902381363793
+        },
+        {
+            "type": "circle",
+            "radius": 15,
+            "mass": 0.5,
+            "restitution": 1,
+            "friction": 0,
+            "color": {
+                "r": 0.5,
+                "g": 0.5,
+                "b": 1
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.1,
+                    "max": 2
+                },
+                "friction": {
+                    "min": 0,
+                    "max": 0.1
+                },
+                "restitution": {
+                    "min": 0.5,
+                    "max": 1
+                }
+            },
+            "id": "map_sphere_small_15",
+            "x": 58.337855824509916,
+            "y": 247.32758212712884,
+            "isStatic": false,
+            "angle": -1.476397692109514
+        },
+        {
+            "type": "circle",
+            "radius": 15,
+            "mass": 0.5,
+            "restitution": 1,
+            "friction": 0,
+            "color": {
+                "r": 0.5,
+                "g": 0.5,
+                "b": 1
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.1,
+                    "max": 2
+                },
+                "friction": {
+                    "min": 0,
+                    "max": 0.1
+                },
+                "restitution": {
+                    "min": 0.5,
+                    "max": 1
+                }
+            },
+            "id": "map_sphere_small_16",
+            "x": 120.62646181749147,
+            "y": 229.27087122665307,
+            "isStatic": false,
+            "angle": 2.860220651643123
+        },
+        {
+            "type": "circle",
+            "radius": 15,
+            "mass": 0.5,
+            "restitution": 1,
+            "friction": 0,
+            "color": {
+                "r": 0.5,
+                "g": 0.5,
+                "b": 1
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.1,
+                    "max": 2
+                },
+                "friction": {
+                    "min": 0,
+                    "max": 0.1
+                },
+                "restitution": {
+                    "min": 0.5,
+                    "max": 1
+                }
+            },
+            "id": "map_sphere_small_17",
+            "x": 229.82830784195562,
+            "y": 76.17899689654938,
+            "isStatic": false,
+            "angle": 0.11042761683233718
+        },
+        {
+            "type": "circle",
+            "radius": 15,
+            "mass": 0.5,
+            "restitution": 0.9875,
+            "friction": 0,
+            "color": {
+                "r": 0.5,
+                "g": 0.5,
+                "b": 1
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.1,
+                    "max": 2
+                },
+                "friction": {
+                    "min": 0,
+                    "max": 0.1
+                },
+                "restitution": {
+                    "min": 0.5,
+                    "max": 1
+                }
+            },
+            "id": "map_sphere_small_18",
+            "x": 126.05884662881977,
+            "y": 106.40971650146025,
+            "isStatic": false,
+            "angle": 1.2911796279229426
+        },
+        {
+            "type": "circle",
+            "radius": 15,
+            "mass": 0.5,
+            "restitution": 1,
+            "friction": 0,
+            "color": {
+                "r": 0.5,
+                "g": 0.5,
+                "b": 1
+            },
+            "configLimits": {
+                "mass": {
+                    "min": 0.1,
+                    "max": 2
+                },
+                "friction": {
+                    "min": 0,
+                    "max": 0.1
+                },
+                "restitution": {
+                    "min": 0.5,
+                    "max": 1
+                }
+            },
+            "id": "map_sphere_small_19",
+            "x": 56.372424073337875,
+            "y": 126.62360410000126,
+            "isStatic": false,
+            "angle": -0.6756391229918167
+        }
+    ],
+    "inventory": [
+        {
+            "id": "inv_box_small",
+            "displayName": "Small Box",
+            "count": 5,
+            "objectProperties": {
+                "type": "box",
+                "width": 50,
+                "height": 50,
+                "depth": 50,
+                "mass": 1,
+                "restitution": 0.4,
+                "friction": 0.05,
+                "color": {
+                    "r": 0.5,
+                    "g": 1,
+                    "b": 0.5
+                },
+                "configLimits": {
+                    "mass": {
+                        "min": 0.5,
+                        "max": 1
+                    },
+                    "friction": {
+                        "min": 0.01,
+                        "max": 0.8
+                    },
+                    "restitution": {
+                        "min": 0,
+                        "max": 0.6
+                    }
+                }
+            }
+        },
+        {
+            "id": "inv_long_smallb",
+            "displayName": "long Box",
+            "count": 8,
+            "objectProperties": {
+                "type": "box",
+                "width": 10,
+                "height": 200,
+                "depth": 50,
+                "mass": 1,
+                "restitution": 0.4,
+                "friction": 0.05,
+                "color": {
+                    "r": 0.5,
+                    "g": 1,
+                    "b": 0.5
+                },
+                "configLimits": {
+                    "mass": {
+                        "min": 0.2,
+                        "max": 1
+                    },
+                    "friction": {
+                        "min": 0.1,
+                        "max": 0.9
+                    },
+                    "restitution": {
+                        "min": 0.1,
+                        "max": 0.5
+                    }
+                }
+            }
+        },
+        {
+            "id": "inv_medum_small",
+            "displayName": "medium Box",
+            "count": 3,
+            "objectProperties": {
+                "type": "box",
+                "width": 10,
+                "height": 100,
+                "depth": 50,
+                "mass": 1,
+                "restitution": 0.4,
+                "friction": 0.05,
+                "color": {
+                    "r": 0.5,
+                    "g": 1,
+                    "b": 0.5
+                },
+                "configLimits": {
+                    "mass": {
+                        "min": 0.2,
+                        "max": 1
+                    },
+                    "friction": {
+                        "min": 0.1,
+                        "max": 0.9
+                    },
+                    "restitution": {
+                        "min": 0.1,
+                        "max": 0.5
+                    }
+                }
+            }
+        }
+    ],
+    "objectives": [
+        {
+            "id": "obj_min_height_ball",
+            "type": "minHeight",
+            "targetId": "inv",
+            "initialHeight": 8000,
+            "displayName": "Maintain the highest tower ",
+            "starThresholds": [
+                {
+                    "stars": 3,
+                    "height": 450
+                },
+                {
+                    "stars": 2,
+                    "height": 200
+                },
+                {
+                    "stars": 1,
+                    "height": 80
+                }
+            ]
+        }
+    ],
+    "endConditions": [
+        {
+            "id": "sim_time_limit",
+            "type": "timeLimit",
+            "displayName": "Time's Up!",
+            "duration": 5,
+            "awaitsManualTrigger": false,
+            "actionButtonText": "Finish Level"
+        }
+    ],
+    "constraints": []
+}

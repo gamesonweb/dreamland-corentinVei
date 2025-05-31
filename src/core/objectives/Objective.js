@@ -34,6 +34,8 @@ export class Objective {
         this.isComplete = false;
         this.isFailed = false;
         this.statusText = 'Pending';
+        this.config = config;
+        this.starsEarned = 0;
     }
 
     /**
@@ -45,6 +47,7 @@ export class Objective {
         this.isComplete = false;
         this.isFailed = false;
         this.statusText = 'Pending';
+        this.starsEarned = 0;
         console.log(`Objective ${this.id} reset.`);
     }
 
@@ -70,7 +73,7 @@ export class Objective {
      *
      * @returns {{id: string, displayName: string, isComplete: boolean, isFailed: boolean, statusText: string}}
      *          An object containing the objective's ID, display name, completion status, failure status,
-     *          and a descriptive status text.
+     *          status text, and stars earned.
      */
     getStatus() {
          return {
@@ -78,7 +81,8 @@ export class Objective {
              displayName: this.displayName,
              isComplete: this.isComplete,
              isFailed: this.isFailed,
-              statusText: this.statusText
+             statusText: this.statusText,
+             starsEarned: this.starsEarned
           };
      }
 

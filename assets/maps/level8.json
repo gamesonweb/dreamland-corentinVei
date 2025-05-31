@@ -1,0 +1,185 @@
+{
+  "briefingImage": "assets/images/level8.jpg",
+  "hintImagePath": "assets/images/level8hint.gif",
+  "world": {
+    "workingBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 800,
+      "height": 600
+    },
+    "simulationBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 800,
+      "height": 600
+    },
+    "wallThickness": 60,
+    "gravity": {
+      "x": 0,
+      "y": -1
+    }
+  },
+  "objects": [
+    {
+      "id": "zone_box_1",
+      "type": "box",
+      "x": 400,
+      "y": 150,
+      "width": 50,
+      "height": 50,
+      "depth": 10,
+      "isStatic": true,
+      "isSensor": true,
+      "isFixed": true,
+      "color": {
+        "r": 1,
+        "g": 1,
+        "b": 0.0,
+        "a": 0.5
+      }
+    },
+    {
+      "id": "box_1",
+      "type": "box",
+      "x": 400,
+      "y": 50,
+      "width": 10,
+      "height": 100,
+      "depth": 50,
+      "friction": 0.0,
+      "isStatic": true,
+      "isFixed": true,
+      "color": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 1,
+        "a": 1
+      }
+    },
+    {
+      "id": "box_2",
+      "type": "box",
+      "x": 400,
+      "y": 120,
+      "width": 40,
+      "height": 40,
+      "depth": 50,
+      "mass": 10,
+      "isStatic": false,
+      "isFixed": true,
+      "color": {
+        "r": 0.5,
+        "g": 0.5,
+        "b": 1.0,
+        "a": 1
+      }
+    }
+  ],
+  "inventory": [
+    {
+      "id": "inv_long_smallb",
+      "displayName": "long Box",
+      "count": 2,
+      "objectProperties": {
+        "type": "box",
+        "width": 10,
+        "height": 280,
+        "depth": 50,
+        "mass": 1,
+        "restitution": 0.4,
+        "friction": 0.05,
+        "color": {
+          "r": 0.5,
+          "g": 1,
+          "b": 0.5
+        },
+        "configLimits": {
+          "mass": {
+            "min": 0.2,
+            "max": 3
+          },
+          "friction": {
+            "min": 0.1,
+            "max": 0.9
+          },
+          "restitution": {
+            "min": 0.1,
+            "max": 0.5
+          }
+        }
+      }
+    },
+    {
+      "id": "inv_box_small",
+      "displayName": "Small Box",
+      "count": 20,
+      "objectProperties": {
+        "type": "box",
+        "width": 55,
+        "height": 55,
+        "depth": 50,
+        "mass": 1,
+        "restitution": 0.4,
+        "friction": 0.05,
+        "color": {
+          "r": 0.5,
+          "g": 1,
+          "b": 0.5
+        },
+        "configLimits": {
+          "mass": {
+            "min": 0.5,
+            "max": 5
+          },
+          "friction": {
+            "min": 0.01,
+            "max": 0.8
+          },
+          "restitution": {
+            "min": 0,
+            "max": 0.6
+          }
+        }
+      }
+    }
+  ],
+  "objectives": [
+    {
+      "id": "obj_box_in_zone",
+      "type": "stayInZone",
+      "targetId": "box_2",
+      "zone": {
+        "x": 400,
+        "y": 150,
+        "width": 50,
+        "height": 50
+      },
+      "duration": 3,
+      "displayName": "Keep Sphere in the yellow zone (3s)",
+      "starThresholds": [
+        {
+          "stars": 3,
+          "completedWithinTime": 10
+        },
+        {
+          "stars": 2,
+          "completedWithinTime": 15
+        },
+        {
+          "stars": 1,
+          "completedWithinTime": 20
+        }
+      ]
+    }
+  ],
+  "endConditions": [
+    {
+      "id": "ball_in_goal_ends",
+      "type": "stayInZoneEnd",
+      "displayName": "Keep Sphere in the yellow zone",
+      "objectiveTargetId": "obj_box_in_zone",
+      "duration": 0
+    }
+  ]
+}

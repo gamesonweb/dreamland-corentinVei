@@ -1,9 +1,26 @@
 import * as Matter from 'matter-js';
+import { initAudio, playCollisionSound } from './soundManager.js';
+import { getApplicationMode } from './simulation.js';
+
+/**
+ * @module core/physicsManager
+ * @description Manages the Matter.js physics engine, including initialization,
+ * object creation (bodies and boundaries), collision handling, and simulation updates.
+ * It also handles toggling between working and simulation boundaries and provides
+ * utility functions for collision checking.
+ */
+
+/** @type {Matter.Engine|null} The Matter.js physics engine instance. */
 let matterEngine = null;
+/** @type {object} Stores the last configuration object used to initialize the physics world. */
 let lastWorldConfig = {};
+/** @type {number} Default collision group for objects. */
 const defaultCollisionGroup = 1;
+/** @type {number} Collision category for boundary objects. */
 const boundaryCollisionCategory = 0x0002;
+/** @type {number} Collision category for dynamic/static physics objects. */
 const objectCollisionCategory = 0x0004;
+/** @type {number} Default collision mask determining what categories collide with each other. */
 const defaultCollisionMask = boundaryCollisionCategory | objectCollisionCategory;
 
 /**
@@ -15,7 +32,6 @@ const defaultCollisionMask = boundaryCollisionCategory | objectCollisionCategory
  * @param {number} [worldConfig.gravity.y=1] - Gravity on the y-axis.
  */
 function initializePhysics(worldConfig) {
-    console.log("Initializing Matter Engine...");
     matterEngine = Matter.Engine.create();
     Matter.Resolver._restingThresh = 1;
     matterEngine.positionIterations = 8;
@@ -23,7 +39,28 @@ function initializePhysics(worldConfig) {
     matterEngine.gravity.x = worldConfig?.gravity?.x ?? 0;
     matterEngine.gravity.y = worldConfig?.gravity?.y ?? 1;
     lastWorldConfig = worldConfig || {};
-    console.log("Matter Engine initialized.");
+
+    initAudio();
+
+    Matter.Events.on(matterEngine, 'collisionStart', (event) => {
+        event.pairs.forEach(pair => {
+            const { bodyA, bodyB } = pair;
+            const typeA = bodyA.objectType || 'boundary';
+            const typeB = bodyB.objectType || 'boundary';
+
+            const relativeVelocityVector = Matter.Vector.sub(bodyA.velocity, bodyB.velocity);
+            const relativeVelocity = Matter.Vector.magnitude(relativeVelocityVector);
+
+            const maxExpectedVelocity = 0.1;
+            let intensity = Math.min(relativeVelocity / maxExpectedVelocity, 1.0);
+            intensity = isNaN(intensity) ? 0 : intensity;
+
+            const intensityThreshold = 0.001;
+            if (getApplicationMode() === 'simulation' && intensity > intensityThreshold) {
+                playCollisionSound({ intensity, typeA, typeB });
+            }
+        });
+    });
 }
 
 /**
@@ -39,10 +76,17 @@ function initializePhysics(worldConfig) {
  */
 function createPhysicsObjects(objectsConfig, constraintsConfig, worldConfig) {
     if (!matterEngine) {
-        console.error("Matter engine not initialized!");
         return { bodies: new Map(), constraints: [] };
     }
     const world = matterEngine.world;
+
+    const existingBodies = Matter.Composite.allBodies(world);
+    existingBodies.forEach(body => {
+        if (body.label && body.label.startsWith('boundary_')) {
+            Matter.Composite.remove(world, body);
+        }
+    });
+
     const bodies = new Map();
     const matterConstraints = [];
     const bodiesById = {};
@@ -53,6 +97,16 @@ function createPhysicsObjects(objectsConfig, constraintsConfig, worldConfig) {
         wallThickness = 60
     } = worldConfig || {};
 
+    /**
+     * Creates a static rectangular boundary body for the physics world.
+     * @param {string} id - A unique identifier for the boundary part (e.g., 'ground', 'leftWall').
+     * @param {number} x - The x-coordinate of the center of the boundary.
+     * @param {number} y - The y-coordinate of the center of the boundary.
+     * @param {number} w - The width of the boundary.
+     * @param {number} h - The height of the boundary.
+     * @param {string} type - The type of boundary ('working' or 'sim').
+     * @returns {Matter.Body} The created Matter.js body.
+     */
     const createBoundary = (id, x, y, w, h, type) => {
     const options = {
             isStatic: true,
@@ -90,14 +144,15 @@ function createPhysicsObjects(objectsConfig, constraintsConfig, worldConfig) {
         const opts = {
             collisionFilter: {
                 category: objectCollisionCategory,
-                mask: defaultCollisionMask // Collide with boundaries and other objects
+                mask: defaultCollisionMask
             },
             restitution: obj.restitution ?? 0.8,
             friction: obj.friction ?? 0.01,
             frictionAir: obj.frictionAir ?? 0.01,
             isStatic: obj.isStatic ?? false,
             angle: obj.angle || 0,
-            label: `object_${obj.id}`
+            label: `object_${obj.id}`,
+            objectType: obj.type
         };
         if (obj.mass && !opts.isStatic) {
             if (obj.type === 'box') opts.density = obj.mass/(obj.width*obj.height);
@@ -111,7 +166,6 @@ function createPhysicsObjects(objectsConfig, constraintsConfig, worldConfig) {
         if (body) {
             if (obj.isSensor === true) {
                 body.isSensor = true;
-                console.log(`Body ${obj.id} created as sensor.`);
             }
 
             body.configId = obj.id;

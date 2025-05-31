@@ -55,19 +55,31 @@ const defaultConfig = {
  *          it was loaded (`path`), which will be `null` if the default config was used or loading failed.
  */
 async function loadSceneConfig(scenePath) {
+    const getStorageKey = (path) => path ? `puzzleshape_config_${path}` : null;
+
     if (scenePath) {
+        const storageKey = getStorageKey(scenePath);
+        const savedConfigStr = storageKey ? localStorage.getItem(storageKey) : null;
+        if (savedConfigStr) {
+            try {
+                const savedConfig = JSON.parse(savedConfigStr);
+                return { config: savedConfig, path: scenePath };
+            } catch (e) {
+                console.warn("Failed to parse saved config from localStorage, loading from file.", e);
+            }
+        }
         try {
-            console.log(`Fetching scene config from: ${scenePath}`);
             const response = await fetch(scenePath);
             if (!response.ok) {
                 throw new Error(`HTTP error ${response.status} fetching ${scenePath}`);
             }
             const config = await response.json();
-            console.log(`Successfully loaded config from: ${scenePath}`);
             config.world = config.world || {};
             config.objects = config.objects || [];
             config.constraints = config.constraints || [];
             config.inventory = config.inventory || [];
+            config.briefingImage = config.briefingImage || null;
+            config.hintImagePath = config.hintImagePath || null;
             return { config: config, path: scenePath };
         } catch (error) {
             console.error(`Error loading scene from ${scenePath}:`, error);

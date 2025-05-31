@@ -1,6 +1,6 @@
 import * as BABYLON from '@babylonjs/core';
 import * as Matter from 'matter-js';
-import { getScene, getCamera, getCanvas, highlightMesh, restoreMeshColor, highlightColor } from '../sceneManager.js';
+import { getScene, getCamera, getCanvas, highlightMesh, restoreMeshColor, highlightColor, setCameraMouseWheelZoomActive } from '../sceneManager.js';
 import { getPhysicsEngine } from '../physicsManager.js';
 import { setDraggingState } from '../simulation.js';
 import { showTrashCan, hideTrashCan, isPointerOverTrashCan } from '../uiManager.js';
@@ -31,7 +31,7 @@ const DRAG_STIFFNESS = 0.05;
 const DRAG_DAMPING = 30;
 const DRAG_ANGULAR_DAMPING = 0.90;
 const DRAG_MAX_VELOCITY = 10;
-const ROTATION_VELOCITY_STEP = 0.1;
+const ROTATION_VELOCITY_STEP = 0.05;
 
 /**
  * Updates the target point (pointB) of the active mouse constraint.
@@ -153,9 +153,8 @@ function startDragging(body, mesh, pointerCoords) {
     setDraggingState(true);
     showTrashCan();
     
-    const canvas = getCanvas();
-    const camera = getCamera();
-    if (canvas && camera) camera.detachControl(canvas);
+    console.log("DragManager: startDragging - Calling setCameraMouseWheelZoomActive(false)");
+    setCameraMouseWheelZoomActive(false);
 }
 
 /**
@@ -189,9 +188,8 @@ function stopDragging() {
 
     if (draggedMesh && dragInitialMeshColor) restoreMeshColor(draggedMesh, dragInitialMeshColor);
     
-    const canvas = getCanvas();
-    const camera = getCamera();
-    if (canvas && camera) camera.attachControl(canvas, true);
+    console.log("DragManager: stopDragging - Calling setCameraMouseWheelZoomActive(true)");
+    setCameraMouseWheelZoomActive(true);
 
     let finalAngle = 0, finalPosition = { x: 0, y: 0 }, droppedBodyId = null;
     if (draggedBody) {

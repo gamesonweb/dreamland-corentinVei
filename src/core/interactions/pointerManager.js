@@ -37,7 +37,6 @@ import {
  * to handle object dragging, placement, configuration selection, and removal via trash can.
  */
 
-// Local variable for pointer interaction callback, primarily set by simulation.js
 let pointerInteractionCallback = null;
 
 /**
@@ -137,11 +136,18 @@ function handlePointerEvent(pointerInfo) {
     }
 
     if (pointerInfo.type === BABYLON.PointerEventTypes.POINTERWHEEL) {
-        if (interactionMode === 'drag' && (currentAppMode === 'construction' || currentAppMode === 'configuration')) {
-            const event = pointerInfo.event;
+        const event = pointerInfo.event;
+        const isDragging = getIsDragging();
+        console.log(`PointerManager: POINTERWHEEL - isDragging: ${isDragging}, interactionMode: ${interactionMode}, currentAppMode: ${currentAppMode}`);
+
+        if (isDragging && interactionMode === 'drag' && (currentAppMode === 'construction' || currentAppMode === 'configuration')) {
+            console.log("PointerManager: POINTERWHEEL - Applying rotation to dragged body.");
             const delta = event.deltaY || event.detail || event.wheelDelta;
             applyRotationToDraggedBody(delta);
             event.preventDefault();
+        } else {
+            console.log("PointerManager: POINTERWHEEL - Conditions for rotation not met, allowing default camera zoom (if active).");
+
         }
         return;
     }

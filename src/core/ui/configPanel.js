@@ -2,6 +2,8 @@ import * as BABYLON from '@babylonjs/core';
 import * as GUI from '@babylonjs/gui';
 import { getAdvancedTexture } from './uiCore.js';
 import { clearConfigSelectionHighlight } from '../interactionManager.js';
+import { initSimulation, currentScenePath } from '../simulation.js';
+import { loadSceneConfig } from '../../utils/configLoader.js';
 
 /**
  * @module core/ui/configPanel
@@ -41,7 +43,7 @@ let configControls = {};
  * Defaults to a console warning if not implemented.
  * @private
  */
-let onConfigUpdate = (objectId, property, value) => { console.warn("onConfigUpdate not implemented"); };
+let onConfigUpdate = (objectId, property, value) => {};
 
 /**
  * Creates the configuration panel GUI elements.
@@ -55,12 +57,10 @@ let onConfigUpdate = (objectId, property, value) => { console.warn("onConfigUpda
 function createConfigPanel(configUpdateCallback) {
     const advancedTexture = getAdvancedTexture();
     if (!advancedTexture) {
-        console.error("Cannot create config panel: AdvancedTexture not available.");
         return;
     }
     
     if (configPanel) {
-        console.warn("Config panel already exists. Disposing and recreating.");
         configPanel.dispose();
         configControls = {};
     }
@@ -69,7 +69,7 @@ function createConfigPanel(configUpdateCallback) {
 
     configPanel = new GUI.Rectangle("configPanel");
     configPanel.width = "300px";
-    configPanel.height = "280px";
+    configPanel.height = "320px";
     configPanel.cornerRadius = 10;
     configPanel.color = "white";
     configPanel.thickness = 1;
@@ -128,8 +128,11 @@ function createConfigPanel(configUpdateCallback) {
     massSlider.onValueChangedObservable.add((value) => {
         const formattedValue = value.toFixed(2);
         massValueText.text = formattedValue;
+    });
+
+    massSlider.onPointerUpObservable.add(() => {
         if (configObjectId) {
-            onConfigUpdate(configObjectId, 'mass', value);
+            onConfigUpdate(configObjectId, 'mass', massSlider.value);
         }
     });
 
@@ -167,8 +170,11 @@ function createConfigPanel(configUpdateCallback) {
     frictionSlider.onValueChangedObservable.add((value) => {
         const formattedValue = value.toFixed(2);
         frictionValueText.text = formattedValue;
+    });
+
+    frictionSlider.onPointerUpObservable.add(() => {
         if (configObjectId) {
-            onConfigUpdate(configObjectId, 'friction', value);
+            onConfigUpdate(configObjectId, 'friction', frictionSlider.value);
         }
     });
 
@@ -206,8 +212,11 @@ function createConfigPanel(configUpdateCallback) {
     restitutionSlider.onValueChangedObservable.add((value) => {
         const formattedValue = value.toFixed(2);
         restitutionValueText.text = formattedValue;
+    });
+
+    restitutionSlider.onPointerUpObservable.add(() => {
         if (configObjectId) {
-            onConfigUpdate(configObjectId, 'restitution', value);
+            onConfigUpdate(configObjectId, 'restitution', restitutionSlider.value);
         }
     });
 

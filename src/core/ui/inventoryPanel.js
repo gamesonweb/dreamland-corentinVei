@@ -2,6 +2,7 @@ import * as BABYLON from '@babylonjs/core';
 import * as GUI from '@babylonjs/gui';
 import { getAdvancedTexture, getMainPanel, emptyImageUrl } from './uiCore.js';
 import { createPreviewTexture } from './objectPreview.js';
+import { setCameraMouseWheelZoomActive } from '../sceneManager.js';
 
 /**
  * @module core/ui/inventoryPanel
@@ -100,9 +101,9 @@ async function updateUIContent(config) {
 
     const engine = BABYLON.EngineStore.LastCreatedEngine;
     const scene = BABYLON.EngineStore.LastCreatedScene;
-    const imageSize = "180px";
-    const textHeight = "50px";
-    const itemWidth = "180px";
+    const imageSize = "120px";
+    const textHeight = "40px";
+    const itemWidth = "120px";
     const totalItemHeight = `${parseInt(imageSize) + parseInt(textHeight)}px`;
     const iconPadding = "5px";
 
@@ -186,9 +187,47 @@ async function updateUIContent(config) {
                 itemContainer.isEnabled = true;
                 itemContainer.alpha = 1.0;
                 itemContainer.hoverCursor = "pointer";
-                itemContainer.onPointerClickObservable.add(() => {
-                    onAddItemRequest(item);
+
+                let isDragging = false;
+                let dragStarted = false;
+                let pointerMoveObserver = null;
+                let pointerUpObserver = null;
+
+                itemContainer.onPointerDownObservable.add((pointerInfo, event) => {
+                    if (isDragging) return;
+                    isDragging = true;
+                    dragStarted = false;
+
+                    setCameraMouseWheelZoomActive(false);
+
+                    const advancedTexture = getAdvancedTexture();
+                    const scene = BABYLON.EngineStore.LastCreatedScene;
+                    if (!scene || !advancedTexture) return;
+
+                    pointerMoveObserver = scene.onPointerObservable.add((pointerInfo) => {
+                        if (!isDragging) return;
+                        if (pointerInfo.type === BABYLON.PointerEventTypes.POINTERMOVE) {
+                            if (!dragStarted) {
+                                dragStarted = true;
+                                if (typeof onAddItemRequest === "function") {
+                                    onAddItemRequest(item);
+                                }
+                            }
+                        }
+                    });
+
+                    pointerUpObserver = scene.onPointerObservable.add((pointerInfo) => {
+                        if (!isDragging) return;
+                        if (pointerInfo.type === BABYLON.PointerEventTypes.POINTERUP) {
+                            isDragging = false;
+                            dragStarted = false;
+                            setCameraMouseWheelZoomActive(true);
+                            if (pointerMoveObserver) scene.onPointerObservable.remove(pointerMoveObserver);
+                            if (pointerUpObserver) scene.onPointerObservable.remove(pointerUpObserver);
+                        }
+                    });
                 });
+
                 itemContainer.onPointerEnterObservable.add(() => { itemContainer.color = "white"; });
                 itemContainer.onPointerOutObservable.add(() => { itemContainer.color = "grey"; });
             } else {

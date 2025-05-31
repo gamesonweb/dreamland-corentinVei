@@ -76,7 +76,7 @@ async function createPreviewTexture(itemData, engine, scene, size) {
     previewCamera.setTarget(Vector3.Zero());
     previewCamera.mode = Camera.ORTHOGRAPHIC_CAMERA;
 
-    const orthoSize = 1.2;
+    const orthoSize = 0.8;
     previewCamera.orthoTop = orthoSize;
     previewCamera.orthoBottom = -orthoSize;
     previewCamera.orthoLeft = -orthoSize;

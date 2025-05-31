@@ -104,9 +104,22 @@ function disposeUI() {
     }
 }
 
+
+const PANEL_CONSTANTS = {
+    PANEL_BORDER_COLOR: "white",
+    PANEL_BORDER_THICKNESS: 2,
+    PANEL_BACKGROUND_COLOR: "rgba(0, 0, 0, 0.7)",
+    TEXT_COLOR: "white",
+    BUTTON_TEXT_COLOR: "white",
+    BUTTON_BACKGROUND_COLOR: "grey",
+    BUTTON_BACKGROUND_COLOR_DISABLED: "#333333",
+    BUTTON_TEXT_COLOR_DISABLED: "#777777"
+};
+
 export {
     getAdvancedTexture,
     getMainPanel,
     disposeUI,
-    emptyImageUrl
+    emptyImageUrl,
+    PANEL_CONSTANTS
 };

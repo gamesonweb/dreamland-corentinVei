@@ -1,7 +1,11 @@
 import * as BABYLON from '@babylonjs/core';
 import * as Matter from 'matter-js';
 import { getScene, getCamera, getCanvas } from '../sceneManager.js';
-import { getApplicationMode, toggleSimulationMode, cancelPlacement } from '../simulation.js';
+import { getApplicationMode, toggleSimulationMode, cancelPlacement, initSimulation, currentConfig, currentScenePath } from '../simulation.js';
+import * as HistoryManager from '../historyManager.js';
+import { toggleSettingsMenuVisibility } from '../ui/settingsMenuBabylon.js';
+import { hideMainMenu } from '../ui/mainMenu.js';
+import { hideLevelSelectMenu } from '../ui/levelSelectMenu.js';
 
 /**
  * @module core/interactions/inputManager
@@ -27,12 +31,12 @@ let isDragging = false;
  * @description Maximum distance (in world units) the pointer can be from a dragged object's anchor
  * before the drag target is clamped. This prevents objects from being flung too far.
  */
-const MAX_INTERACTION_DISTANCE = 3000;
+const MAX_INTERACTION_DISTANCE = 100;
 
 /**
  * @constant {number} ROTATION_VELOCITY_STEP
  * @description The increment/decrement value applied to a dragged body's angular velocity
- * when a rotation input (e.g., mouse wheel) is received.
+ * when a rotation input (e.e., mouse wheel) is received.
  */
 const ROTATION_VELOCITY_STEP = 0.1;
 
@@ -50,19 +54,78 @@ function attachKeyboardListener() {
 /**
  * Handles keydown events on the document.
  * - If 'Escape' is pressed while in 'place' interaction mode, it cancels the placement.
+ * - If 'Escape' is pressed and a level is active (main menu is hidden), it returns to the main menu.
  * - If 'Space' is pressed and not currently dragging an object, it toggles the simulation mode (play/pause).
  * @param {KeyboardEvent} event - The keyboard event object.
  */
 function handleKeyDown(event) {
-    if (event.code === 'Escape' && interactionMode === 'place') {
+    console.log(`InputManager: KeyDown - Code: ${event.code}, Ctrl: ${event.ctrlKey}, Meta: ${event.metaKey}, Shift: ${event.shiftKey}`);
+
+    if (event.code === 'Escape') {
         event.preventDefault();
-        cancelPlacement();
+        if (interactionMode === 'place') {
+            console.log("InputManager: Escape pressed in place mode - cancelling placement.");
+            cancelPlacement();
+        } else if (currentConfig) {
+            console.log("InputManager: Escape pressed during active level - toggling in-game settings menu.");
+            if (typeof hideMainMenu === 'function') hideMainMenu();
+            if (typeof hideLevelSelectMenu === 'function') hideLevelSelectMenu();
+            toggleSettingsMenuVisibility();
+        } else { 
+            console.log("InputManager: Escape pressed (no active level). Settings menu not toggled.");
+        }
         return;
     }
 
     if (!isDragging && event.code === 'Space') {
+        console.log("InputManager: Space pressed.");
         event.preventDefault();
         toggleSimulationMode();
+        return;
+    }
+
+    const isUndo = ((event.ctrlKey || event.metaKey) && (event.code === 'KeyZ' || event.code === 'KeyW')) && !event.shiftKey;
+    if (isUndo) {
+        console.log(`InputManager: Undo shortcut detected (Code: ${event.code}).`);
+        event.preventDefault();
+        if (HistoryManager.hasUndo()) {
+            console.log("InputManager: History has undo states. Attempting undo.");
+            const liveConfig = currentConfig;
+            const prevState = HistoryManager.undo(liveConfig);
+            if (prevState) {
+                console.log("InputManager: Previous state retrieved. Initializing simulation for undo.");
+                const scenePath = currentScenePath;
+                initSimulation(prevState, scenePath, true);
+            } else {
+                console.log("InputManager: HistoryManager.undo() returned null.");
+            }
+        } else {
+            console.log("InputManager: HistoryManager reports nothing to undo.");
+        }
+        return;
+    }
+
+
+    const isRedo = (event.ctrlKey && event.code === 'KeyY') ||
+                   ((event.metaKey && event.shiftKey) && (event.code === 'KeyZ' || event.code === 'KeyW'));
+    if (isRedo) {
+        console.log(`InputManager: Redo shortcut detected (Code: ${event.code}).`);
+        event.preventDefault();
+        if (HistoryManager.hasRedo()) {
+            console.log("InputManager: History has redo states. Attempting redo.");
+            const liveConfig = currentConfig;
+            const nextState = HistoryManager.redo(liveConfig);
+            if (nextState) {
+                console.log("InputManager: Next state retrieved. Initializing simulation for redo.");
+                const scenePath = currentScenePath;
+                initSimulation(nextState, scenePath, true);
+            } else {
+                console.log("InputManager: HistoryManager.redo() returned null.");
+            }
+        } else {
+            console.log("InputManager: HistoryManager reports nothing to redo.");
+        }
+        return;
     }
 }
 

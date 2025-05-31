@@ -1,0 +1,158 @@
+{
+  "briefingImage": "assets/images/save.gif",
+  "hintImagePath": "assets/images/level4hint.jpg",
+  "world": {
+    "workingBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 800,
+      "height": 300
+    },
+    "simulationBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 800,
+      "height": 5000
+    },
+    "wallThickness": 60,
+    "gravity": {
+      "x": 0,
+      "y": -1
+    }
+  },
+  "objects": [],
+  "inventory": [
+    {
+      "id": "inv_sphere_small",
+      "displayName": "Small Sphere",
+      "count": 1,
+      "objectProperties": {
+        "type": "circle",
+        "radius": 15,
+        "mass": 0.5,
+        "restitution": 0.8,
+        "friction": 0.02,
+        "color": {
+          "r": 0.5,
+          "g": 0.5,
+          "b": 1.0
+        },
+        "configLimits": {
+          "mass": {
+            "min": 0.1,
+            "max": 2.0
+          },
+          "friction": {
+            "min": 0.0,
+            "max": 0.1
+          },
+          "restitution": {
+            "min": 0.5,
+            "max": 1.0
+          }
+        }
+      }
+    },
+    {
+      "id": "inv_box_small",
+      "displayName": "Small Box",
+      "count": 5,
+      "objectProperties": {
+        "type": "box",
+        "width": 50,
+        "height": 50,
+        "depth": 50,
+        "mass": 1,
+        "restitution": 0.4,
+        "friction": 0.05,
+        "color": {
+          "r": 0.5,
+          "g": 1.0,
+          "b": 0.5
+        },
+        "configLimits": {
+          "mass": {
+            "min": 0.5,
+            "max": 5.0
+          },
+          "friction": {
+            "min": 0.01,
+            "max": 0.8
+          },
+          "restitution": {
+            "min": 0.0,
+            "max": 0.6
+          }
+        }
+      }
+    },
+    {
+      "id": "inv_long_small",
+      "displayName": "long Box",
+      "count": 5,
+      "objectProperties": {
+        "type": "box",
+        "width": 300,
+        "height": 10,
+        "depth": 50,
+        "mass": 1,
+        "restitution": 0.4,
+        "friction": 0.05,
+        "color": {
+          "r": 0.5,
+          "g": 1.0,
+          "b": 0.5
+        },
+        "configLimits": {
+          "mass": {
+            "min": 0.2,
+            "max": 3.0
+          },
+          "friction": {
+            "min": 0.1,
+            "max": 0.9
+          },
+          "restitution": {
+            "min": 0.1,
+            "max": 0.5
+          }
+        }
+      }
+    }
+  ],
+  "objectives": [
+    {
+      "id": "obj_max_height_sphere",
+      "type": "maxHeight",
+      "targetId": "inv_sphere_small",
+      "displayName": "Send the sphere as high as possible ",
+      "starThresholds": [
+        {
+          "stars": 3,
+          "height": 500,
+          "maxTime": 30
+        },
+        {
+          "stars": 2,
+          "height": 350,
+          "maxTime": 45
+        },
+        {
+          "stars": 1,
+          "height": 200
+        }
+      ]
+    }
+  ],
+  "endConditions": [
+    {
+      "id": "sphere_max_height_end",
+      "type": "maxHeightEnd",
+      "displayName": "Sphere Reaches High Point",
+      "targetId": "inv_sphere_small",
+      "objectiveTargetId": "obj_max_height_sphere",
+      "targetHeight": 100,
+      "delayAfterDescent": 2
+    }
+  ]
+}

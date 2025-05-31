@@ -47,6 +47,7 @@ export class MaxHeightObjective extends Objective {
         this.currentMaxYValue = -Infinity;
         this.maxHeightLineMesh = null;
         this.scene = scene;
+        this.achievedHeightTimes = {};
 
         const simBounds = worldConfig.simulationBounds;
         const lineWidth = simBounds.width;
@@ -79,6 +80,7 @@ export class MaxHeightObjective extends Objective {
         super.reset();
         this.currentMaxYValue = -Infinity;
         this.statusText = `Highest Point (Max Y): Tracking...`;
+        this.achievedHeightTimes = {};
 
         if (this.maxHeightLineMesh && !this.maxHeightLineMesh.isDisposed()) {
             this.maxHeightLineMesh.setEnabled(false);
@@ -90,14 +92,15 @@ export class MaxHeightObjective extends Objective {
      * It iterates through all bodies, finds those matching the `baseTargetId`,
      * and determines the maximum Y-coordinate among them. If this value is greater
      * than `currentMaxYValue`, it updates `currentMaxYValue`, the `statusText`,
-     * and the position of the visual line.
+     * and the position of the visual line. It also records the time when specific
+     * height thresholds are met.
      *
-     * @param {Map<string, Matter.Body>} bodies - A map of all physics bodies in the simulation,
-     *                                          where keys are `configId`s and values are `Matter.Body` instances.
-     * @param {number} deltaTime - Time elapsed since the last frame (currently unused by this objective).
+     * @param {Map<string, Matter.Body>} bodies - A map of all physics bodies in the simulation.
+     * @param {number} deltaTime - Time elapsed since the last frame.
+     * @param {number} totalSimulationTime - The total time elapsed in the current simulation run.
      * @override
      */
-    update(bodies, deltaTime) {
+    update(bodies, deltaTime, totalSimulationTime) {
         if (this.isComplete || this.isFailed) return;
 
         let lowestMatchingBody = null;
@@ -121,7 +124,6 @@ export class MaxHeightObjective extends Objective {
 
         if (overallMaxY > this.currentMaxYValue) {
             this.currentMaxYValue = overallMaxY;
-            this.statusText = `Lowest Point (Max Y): ${this.currentMaxYValue.toFixed(1)}`;
 
             if (this.maxHeightLineMesh && !this.maxHeightLineMesh.isDisposed()) {
                 if (!this.maxHeightLineMesh.isEnabled()) {
@@ -129,7 +131,48 @@ export class MaxHeightObjective extends Objective {
                 }
                 this.maxHeightLineMesh.position.y = this.currentMaxYValue;
             }
+
+            if (this.config.starThresholds && Array.isArray(this.config.starThresholds)) {
+                this.config.starThresholds.forEach(threshold => {
+                    if (this.currentMaxYValue >= threshold.height && !this.achievedHeightTimes[threshold.height]) {
+                        this.achievedHeightTimes[threshold.height] = totalSimulationTime;
+                    }
+                });
+            }
         }
+         this.statusText = `Max Height: ${this.currentMaxYValue > -Infinity ? this.currentMaxYValue.toFixed(1) + 'm' : 'Tracking...'}`;
+    }
+
+    /**
+     * Calculates the number of stars earned based on the achieved height and time.
+     * This should be called once at the end of the level.
+     * @param {number} totalSimulationTimeAtLevelEnd - The total simulation time when the level ended.
+     */
+    calculateStars(totalSimulationTimeAtLevelEnd) {
+        this.starsEarned = 0;
+        if (!this.config.starThresholds || !Array.isArray(this.config.starThresholds) || this.config.starThresholds.length === 0) {
+            this.statusText = `Max Height: ${this.currentMaxYValue > -Infinity ? this.currentMaxYValue.toFixed(1) + 'm' : 'N/A'}`;
+            return;
+        }
+
+
+        const sortedThresholds = [...this.config.starThresholds].sort((a, b) => b.stars - a.stars);
+
+        for (const threshold of sortedThresholds) {
+            const heightMet = this.currentMaxYValue >= threshold.height;
+            let timeMet = true;
+
+            if (threshold.maxTime !== undefined) {
+                const timeAchieved = this.achievedHeightTimes[threshold.height];
+                timeMet = timeAchieved !== undefined && timeAchieved <= threshold.maxTime;
+            }
+
+            if (heightMet && timeMet) {
+                this.starsEarned = threshold.stars;
+                break;
+            }
+        }
+        this.statusText = `Max Height: ${this.currentMaxYValue > -Infinity ? this.currentMaxYValue.toFixed(1) + 'm' : 'N/A'} (${this.starsEarned} ${this.starsEarned === 1 ? 'Star' : 'Stars'})`;
     }
 
      /**

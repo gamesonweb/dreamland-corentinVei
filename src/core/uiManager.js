@@ -4,6 +4,9 @@ import { createTopMenuBar, updateTopMenuBar } from './ui/menuBar.js';
 import { createConfigPanel, showConfigPanel, hideConfigPanel } from './ui/configPanel.js';
 import { createTrashCan, showTrashCan, hideTrashCan, isPointerOverTrashCan } from './ui/trashCan.js';
 import { createObjectivesPanel, updateObjectivesPanel, disposeObjectivesPanel } from './ui/objectivesPanel.js';
+import { createEndMenu as createEndMenuCore, showEndMenu as showEndMenuCore, hideEndMenu as hideEndMenuCore, disposeEndMenu as disposeEndMenuCore } from './ui/endMenu.js';
+import { createBriefingPanel, showBriefingPanel, hideBriefingPanel, disposeBriefingPanel } from './ui/briefingPanel.js';
+import { createHintPanel, showHintPanel, hideHintPanel, disposeHintPanel } from './ui/hintPanel.js';
 
 /**
  * @module core/uiManager
@@ -21,8 +24,12 @@ import { createObjectivesPanel, updateObjectivesPanel, disposeObjectivesPanel } 
  */
 function disposeUI() {
     disposeObjectivesPanel();
+    disposeEndMenuCore();
+    disposeBriefingPanel();
+    disposeHintPanel();
     coreDisposeUI();
 }
+
 
 export {
     createInventoryUI,
@@ -38,5 +45,17 @@ export {
     showConfigPanel,
     hideConfigPanel,
     createObjectivesPanel,
-    updateObjectivesPanel
+    updateObjectivesPanel,
+    createEndMenuCore as createEndMenu,
+    showEndMenuCore as showEndMenu,
+    hideEndMenuCore as hideEndMenu,
+    disposeEndMenuCore as disposeEndMenu,
+    createBriefingPanel,
+    showBriefingPanel,
+    hideBriefingPanel,
+    disposeBriefingPanel,
+    createHintPanel,
+    showHintPanel,
+    hideHintPanel,
+    disposeHintPanel
 };
