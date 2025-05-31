@@ -10,7 +10,7 @@ PuzzleShape invites you to tap into your creativity and problem-solving abilitie
 
 * **[📹 Presentation Video](https://youtu.be/_lrPfQzOBlk)** - Watch the complete project presentation
 * **[🎮 Gameplay Demo](https://youtu.be/qEtjsIvMaQ8)** - See PuzzleShape in action
-* **[📚 Documentation](https://youtu.be/_lrPfQzOBlk)** - Detailed technical documentation
+* **[📚 Documentation](https://corentinvei.github.io/PuzzleShape/)** - Detailed technical documentation
 * **[🌐 Play the Game](https://puzzleshape.corentin.cc/)** - Try PuzzleShape in your browser
 
 ## Project Participants
